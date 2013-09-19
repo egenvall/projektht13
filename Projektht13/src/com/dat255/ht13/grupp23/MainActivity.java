@@ -12,19 +12,23 @@ import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 	GoogleMap map;
+	Controller controller;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		   map = ((SupportMapFragment) getSupportFragmentManager()
-	                .findFragmentById(R.id.map)).getMap();
-	        if (map == null) {
-	            Toast.makeText(this, "Google Maps not available", 
-	                Toast.LENGTH_LONG).show();
-	        }
-		
-		/*Test*/
+
+		map = ((SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.map)).getMap();
+		if (map == null) {
+			Toast.makeText(this, "Google Maps not available", Toast.LENGTH_LONG)
+					.show();
+		}
+
+		/* Test */
+
+		controller.Initiate();
 	}
 
 	@Override
