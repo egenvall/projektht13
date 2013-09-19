@@ -31,9 +31,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:debuggable="true">
         <activity
-            android:name="com.example.projektht13.MainActivity"
+            android:name="com.dat255.ht13.grupp23.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,8 +45,8 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyD2lOdMIYsBump27lnOTY_gkfeofG3jBkU" />
-        <!--  Debug key AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
+            android:value="AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo" />
+        <!--  Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo-->
     </application>
 
 </manifest>

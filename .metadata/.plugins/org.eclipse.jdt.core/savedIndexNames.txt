@@ -1,5 +1,7 @@
-INDEX VERSION 1.126+E:\Documents\GitHub\projektht13\.metadata\.plugins\org.eclipse.jdt.core
-2664926966.index
-120305201.index
-2972321145.index
-3302251931.index
+INDEX VERSION 1.126+/Users/carl/Documents/Chalmers/projektht13/.metadata/.plugins/org.eclipse.jdt.core
+2719276748.index
+2942529499.index
+3748124820.index
+1415693123.index
+2355054347.index
+1164132645.index
