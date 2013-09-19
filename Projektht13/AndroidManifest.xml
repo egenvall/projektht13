@@ -8,9 +8,9 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="17" />
 	<permission
-	    android:name="com.example.projektht13.permission.MAPS_RECEIVE"
+	    android:name="com.dat255.ht13.grupp23.permission.MAPS_RECEIVE"
 	    android:protectionLevel="signature"/>
-	    <uses-permission android:name="com.example.projektht13.permission.MAPS_RECEIVE" />
+	    <uses-permission android:name="com.dat255.ht13.grupp23.permission.MAPS_RECEIVE" />
 	
 	
     <uses-permission android:name="android.permission.INTERNET" />

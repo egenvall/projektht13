@@ -9,6 +9,6 @@ package com.example.projektht13;
 
 public final class Manifest {
     public static final class permission {
-        public static final String MAPS_RECEIVE="com.example.projektht13.permission.MAPS_RECEIVE";
+        public static final String MAPS_RECEIVE="com.dat255.ht13.grupp23.permission.MAPS_RECEIVE";
     }
 }
