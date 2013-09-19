@@ -1,6 +1,6 @@
 package com.dat255.ht13.grupp23;
 
-import com.example.projektht13.R;
+import com.dat255.ht13.grupp23.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 

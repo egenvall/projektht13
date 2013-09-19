@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.projektht13"
+    package="com.dat255.ht13.grupp23"
     android:versionCode="1"
     android:versionName="1.0" >
 
