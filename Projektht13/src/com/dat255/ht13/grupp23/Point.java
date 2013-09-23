@@ -13,4 +13,27 @@ public class Point {
 		return y;
 	}
 
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+	
+	/*
+	 * Default constructor.
+	 */
+	public Point() {
+		
+	}
+	
+	/*
+	 * Copy constructor.
+	 */
+	public Point(Point point) {
+		this.x = point.getX();
+		this.y = point.getY();
+	}
+
 }

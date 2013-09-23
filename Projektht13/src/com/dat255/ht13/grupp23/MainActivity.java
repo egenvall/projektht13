@@ -28,7 +28,8 @@ public class MainActivity extends FragmentActivity {
 
 		/* Test */
 
-		//controller.Initiate();
+		controller = new Controller();
+		controller.initiate();
 	}
 
 	@Override
