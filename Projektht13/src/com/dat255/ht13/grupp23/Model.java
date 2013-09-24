@@ -9,6 +9,7 @@ public class Model {
 
 	/**
 	 * Returns a deep copy off the messagePoints list.
+	 * 
 	 * @return copy of messagePoints.
 	 */
 	public ArrayList<MessagePoint> getMessagePoints() {
