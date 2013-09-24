@@ -21,11 +21,9 @@ public class Point {
 		this.y = y;
 	}
 	
-	/*
-	 * Default constructor.
-	 */
-	public Point() {
-		
+	public Point(float x, float y) {
+		this.x = x;
+		this.y = y;
 	}
 	
 	/*

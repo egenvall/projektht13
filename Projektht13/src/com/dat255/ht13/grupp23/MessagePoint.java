@@ -8,6 +8,10 @@ public class MessagePoint {
 	private ArrayList<Message> messages;
 	private Point position;
 
+	/**
+	 * Returns a deep copy off the messages list.
+	 * @return copy of messages.
+	 */
 	public ArrayList<Message> getMessages() {
 		ArrayList<Message> messagesCopy = new ArrayList<Message>();
 		Iterator<Message> iterator = messages.iterator();
@@ -17,6 +21,10 @@ public class MessagePoint {
 		return messagesCopy;
 	}
 
+	/**
+	 * Returns a copy off the position.
+	 * @return copy of position.
+	 */
 	public Point getPosition() {
 		return new Point(position);
 	}
@@ -29,9 +37,15 @@ public class MessagePoint {
 	 * Default constructor.
 	 */
 	public MessagePoint() {
-
+		this.messages = new ArrayList<Message>();
+		this.position = new Point(0, 0);
 	}
 
+	public MessagePoint(ArrayList<Message> messages, Point position) {
+		this.messages = messages;
+		this.position = position;
+	}
+	
 	/*
 	 * Copy constructor.
 	 */

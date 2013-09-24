@@ -5,9 +5,9 @@ public class Controller {
 	private Model model;
 	private View view;
 
-	public void initiate() {
-		model.initiateModel();
-		view.initateView();
+	public Controller() {
+		model = new Model();
+		view = new View();
 	}
 
 }

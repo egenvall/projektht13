@@ -12,7 +12,11 @@ public class Message {
 	 * Default constructor.
 	 */
 	public Message() {
-		
+		text = "";
+	}
+	
+	public Message(String text) {
+		this.text = text;
 	}
 	
 	/*

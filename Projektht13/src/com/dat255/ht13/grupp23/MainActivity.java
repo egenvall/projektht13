@@ -69,8 +69,7 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 
 		/* Test */
 
-		//controller = new Controller();
-		//controller.initiate();
+		controller = new Controller();
 	}
 	
 	@Override
