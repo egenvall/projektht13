@@ -1,13 +1,20 @@
 package com.dat255.ht13.grupp23;
 
-public class Controller {
+import android.support.v4.app.FragmentActivity;
+
+public class Controller implements Observer {
 
 	private Model model;
 	private View view;
 
-	public Controller() {
+	public Controller(FragmentActivity mainActivity) {
 		model = new Model();
-		view = new View();
+		view = new View(mainActivity);
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 	}
 
 }
