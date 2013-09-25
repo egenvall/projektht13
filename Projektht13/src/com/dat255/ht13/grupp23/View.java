@@ -5,7 +5,7 @@ public class View {
 	/*
 	 * Show MessagePoints on map etc.
 	 */
-	public void initateView() {
+	public View() {
 
 	}
 

@@ -31,19 +31,23 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		// Getting Google Play availability status
-		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+		int status = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(getBaseContext());
 
 		// Showing status
-		if(status!=ConnectionResult.SUCCESS){ // Google Play Services are not available
+		if (status != ConnectionResult.SUCCESS) { // Google Play Services are
+													// not available
 
 			int requestCode = 10;
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,
+					requestCode);
 			dialog.show();
 
-		}else { // Google Play Services are available
+		} else { // Google Play Services are available
 
 			// Getting reference to the SupportMapFragment of activity_main.xml
-			SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+			SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager()
+					.findFragmentById(R.id.map);
 
 			// Getting GoogleMap object from the fragment
 			googleMap = fm.getMap();
@@ -53,6 +57,11 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 			googleMap.getUiSettings().setRotateGesturesEnabled(true);
 			
 			// Getting LocationManager object from System Service LOCATION_SERVICE
+
+
+			// Getting LocationManager object from System Service
+			// LOCATION_SERVICE
+
 			LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 			// Creating a criteria object to retrieve provider
@@ -64,48 +73,42 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 			// Getting Current Location
 			Location location = locationManager.getLastKnownLocation(provider);
 
-			if(location!=null){
+			if (location != null) {
 				onLocationChanged(location);
 			}
 			locationManager.requestLocationUpdates(provider, 5000, 0, this);
 		}
 
-
 		/* Test */
 
-		//controller = new Controller();
-		//controller.initiate();
+		controller = new Controller();
 	}
-	
+
 	@Override
-    public void onLocationChanged(Location location) {
- 
-        // Getting latitude of the current location
-        double latitude = location.getLatitude();
- 
-        // Getting longitude of the current location
-        double longitude = location.getLongitude();
- 
-        // Creating a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
- 
-        // Showing the current location in Google Map
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
- 
-        // Zoom in the Google Map
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
- 
-    }
-	
-	public void getLocation(){
-		
-	
+	public void onLocationChanged(Location location) {
+
+		// Getting latitude of the current location
+		double latitude = location.getLatitude();
+
+		// Getting longitude of the current location
+		double longitude = location.getLongitude();
+
+		// Creating a LatLng object for the current location
+		LatLng latLng = new LatLng(latitude, longitude);
+
+		// Showing the current location in Google Map
+		googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+		// Zoom in the Google Map
+		googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+
 	}
- 
-    @Override
-    public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
-    }
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+	}
+
  
     @Override
     public void onProviderEnabled(String provider) {
