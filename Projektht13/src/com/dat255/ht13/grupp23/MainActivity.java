@@ -6,7 +6,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -17,6 +19,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements LocationListener {
@@ -47,7 +50,8 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 
 			// Enabling MyLocation Layer of Google Map
 			googleMap.setMyLocationEnabled(true);
-
+			googleMap.getUiSettings().setRotateGesturesEnabled(true);
+			
 			// Getting LocationManager object from System Service LOCATION_SERVICE
 			LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -63,7 +67,7 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 			if(location!=null){
 				onLocationChanged(location);
 			}
-			locationManager.requestLocationUpdates(provider, 20000, 0, this);
+			locationManager.requestLocationUpdates(provider, 5000, 0, this);
 		}
 
 
@@ -92,6 +96,11 @@ public class MainActivity extends FragmentActivity implements LocationListener {
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
  
     }
+	
+	public void getLocation(){
+		
+	
+	}
  
     @Override
     public void onProviderDisabled(String provider) {
@@ -107,14 +116,48 @@ public class MainActivity extends FragmentActivity implements LocationListener {
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
     }
+    
+    public boolean onCreateOptionsMenu(Menu menu) { 
+    	getMenuInflater().inflate(R.menu.main, menu); 
+    	return true; 
+    
+    }
+    
+    // This function is made for putting markers on the current location.
+    // It sends a LatLng to .position in add marker options
+    public LatLng getLocForMarker(){
+    	
+    	 Location myLocation = googleMap.getMyLocation();
+         LatLng myLatLng = new LatLng(myLocation.getLatitude(),
+                 myLocation.getLongitude());
+        
+         return myLatLng;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
  
-   
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
+        switch (item.getItemId()) {
+ 
+        case R.id.menu_sethybrid:
+            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            break;
+        
+        case R.id.menu_zoomin:
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            break;
+ 
+        case R.id.menu_zoomout:
+            googleMap.animateCamera(CameraUpdateFactory.zoomOut());
+            break;
+        
+        case R.id.menu_addmarker:
+	        googleMap.addMarker(new MarkerOptions()
+	        .position(getLocForMarker())
+	        .icon(BitmapDescriptorFactory
+            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+	        break;
+	    }
+        return true;
+    }
 }
