@@ -17,6 +17,7 @@ Dimensions-android/bin/res/
 bin/
 gen/
 
+Projektht13/bin/*
 # Local configuration file (sdk path, etc)
 local.properties
 
