@@ -45,8 +45,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
-				
-				//notifyObservers();
+				notifyObservers(EventType.MarkerClick);
 				return false;
 			}
 
@@ -200,10 +199,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 
 
 	@Override
-	public void notifyObservers() {
+	public void notifyObservers(EventType eventType) {
 		Iterator<Observer> iterator = observers.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().update();
+			iterator.next().update(eventType);
 		}		
 	}
 

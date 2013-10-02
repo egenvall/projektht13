@@ -13,7 +13,7 @@ public class Controller implements Observer {
 	}
 
 	@Override
-	public void update() {
+	public void update(EventType eventType) {
 		// TODO Auto-generated method stub
 	}
 
