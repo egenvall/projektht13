@@ -1,11 +1,18 @@
 package com.dat255.ht13.grupp23;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -17,13 +24,36 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 
-public class MapsActivity extends FragmentActivity implements LocationListener {
+public class MapsActivity extends FragmentActivity implements LocationListener,Subject {
 	GoogleMap googleMap;
+	private ArrayList<Observer> observers;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		observers = new ArrayList<Observer>();
 		setContentView(R.layout.activity_maps);
+		initiateMap();
+		addMarkerClickListener();
+
+	}
+
+
+	public void addMarkerClickListener(){
+		googleMap.setOnMarkerClickListener(new OnMarkerClickListener(){
+
+			@Override
+			public boolean onMarkerClick(Marker arg0) {
+				
+				//notifyObservers();
+				return false;
+			}
+
+		});
+	}
+	//public void 
+	public void initiateMap(){
 		// Getting Google Play availability status
 		int status = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getBaseContext());
@@ -76,9 +106,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
 			}
 		}
+
 	}
-
-
 
 
 	@Override
@@ -133,32 +162,49 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
 		return myLatLng;
 	}
-	/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 
-        case R.id.menu_sethybrid:
-            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-            break;
+		switch (item.getItemId()) {
 
-        case R.id.menu_zoomin:
-            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
-            break;
 
-        case R.id.menu_zoomout:
-            googleMap.animateCamera(CameraUpdateFactory.zoomOut());
-            break;
+		case R.id.menu_addmarker:
+			googleMap.addMarker(new MarkerOptions()
+			.position(getLocForMarker())
+			.icon(BitmapDescriptorFactory
+					.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+			break;
+		}
+		return true;
+	}
 
-        case R.id.menu_addmarker:
-	        googleMap.addMarker(new MarkerOptions()
-	        .position(getLocForMarker())
-	        .icon(BitmapDescriptorFactory
-            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-	        break;
-	    }
-        return true;
-    }*/
+
+
+
+	@Override
+	public void addObserver(Observer observer) {
+		observers.add(observer);		
+	}
+
+
+
+
+	@Override
+	public void removeObserver(Observer observer) {
+		observers.remove(observer);
+
+	}
+
+
+
+
+	@Override
+	public void notifyObservers() {
+		Iterator<Observer> iterator = observers.iterator();
+		while (iterator.hasNext()) {
+			iterator.next().update();
+		}		
+	}
 
 }

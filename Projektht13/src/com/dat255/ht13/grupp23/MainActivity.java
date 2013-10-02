@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity{
-	GoogleMap googleMap;
 	Controller controller;
 
 	@Override
