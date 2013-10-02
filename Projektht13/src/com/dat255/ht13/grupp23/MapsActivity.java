@@ -19,7 +19,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.app.Activity;
+import android.os.Vibrator;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -28,14 +28,22 @@ import android.view.MenuItem;
 
 public class MapsActivity extends FragmentActivity implements LocationListener,Subject {
 	GoogleMap googleMap;
+	Vibrator v;
+	
 	private ArrayList<Observer> observers;
+	
+	public MapsActivity(){
+		observers = new ArrayList<Observer>();
+
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		observers = new ArrayList<Observer>();
 		setContentView(R.layout.activity_maps);
 		initiateMap();
 		addMarkerClickListener();
+		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
 
 	}
 
@@ -46,6 +54,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
 				notifyObservers(EventType.MarkerClick);
+				v.vibrate(1000);
+				
+				
 				return false;
 			}
 
