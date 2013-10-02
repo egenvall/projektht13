@@ -40,43 +40,39 @@ import org.json.JSONObject;
 
 public class MessageBoardActivity extends Activity {
 	MessagePoint messagePoint;
-		
 
-	
 	protected void sendMessage(String text){
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost("http://web.student.chalmers.se/~wajohan/klotter/postmessage.php");
 		Point position = messagePoint.getPosition();
-	    try {
-	        // Add your data
-	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-	        nameValuePairs.add(new BasicNameValuePair("x", String.valueOf(position.getX())));
-	        nameValuePairs.add(new BasicNameValuePair("y", String.valueOf(position.getY())));
-	        nameValuePairs.add(new BasicNameValuePair("message",text));
-	        
-	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+		try {
+			// Add your data
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("x", String.valueOf(position.getX())));
+			nameValuePairs.add(new BasicNameValuePair("y", String.valueOf(position.getY())));
+			nameValuePairs.add(new BasicNameValuePair("message",text));
 
-	        // Execute HTTP Post Request
-	        HttpResponse response = httpClient.execute(httpPost);
-	        
-	    } catch (ClientProtocolException e) {
-	        // TODO Auto-generated catch block
-	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	    }
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 
-		
-		
+			// Execute HTTP Post Request
+			HttpResponse response = httpClient.execute(httpPost);
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+
 	}
 	private void showMessages(){
 		TextView mTextView = (TextView) findViewById(R.id.textView1);
 		mTextView.setText("");
-        for(Message m : messagePoint.getMessages()){
-        	mTextView.append(m.getText() + "\n");
-        }
+		for(Message m : messagePoint.getMessages()){
+			mTextView.append(m.getText() + "\n");
+		}
 
 	}
-	
+
 	private void updateMP(MessagePoint mp){
 		Date after=new Date(0);
 		for(Message message : mp.getMessages()){
@@ -85,48 +81,48 @@ public class MessageBoardActivity extends Activity {
 			}
 		}
 		long time = after.getTime()/1000;
-		
+
 		DefaultHttpClient   httpclient = new DefaultHttpClient(new BasicHttpParams());
 		HttpPost httppost = new HttpPost("http://web.student.chalmers.se/~wajohan/klotter/getjson.php?after="+String.valueOf(time)+"&type=point&x="+String.valueOf(messagePoint.getPosition().getX()+"&y="+messagePoint.getPosition().getY()));
 		InputStream inputStream = null;
 		String result = null;
 		try {
-		    HttpResponse response = httpclient.execute(httppost);           
-		    HttpEntity entity = response.getEntity();
+			HttpResponse response = httpclient.execute(httppost);           
+			HttpEntity entity = response.getEntity();
 
-		    inputStream = entity.getContent();
-		    // json is UTF-8 by default
-		    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-		    StringBuilder sb = new StringBuilder();
+			inputStream = entity.getContent();
+			// json is UTF-8 by default
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
+			StringBuilder sb = new StringBuilder();
 
-		    String line = null;
-		    while ((line = reader.readLine()) != null)
-		    {
-		        sb.append(line + "\n");
-		    }
-		    result = sb.toString();
+			String line = null;
+			while ((line = reader.readLine()) != null)
+			{
+				sb.append(line + "\n");
+			}
+			result = sb.toString();
 
 			JSONObject jObject = new JSONObject(result);
 			JSONArray jArray = jObject.getJSONArray("messages");
-			
+
 			for (int i=0; i < jArray.length(); i++)
 			{
-			    JSONObject oneObject = jArray.getJSONObject(i);
-			        
-			    // Pulling items from the array
-			        
-			    String message = oneObject.getString("message");
-			    Date date = new Date(Long.parseLong(oneObject.getString("time"))*1000);
-			    messagePoint.AddMessage(new Message(message,date));
-			    
+				JSONObject oneObject = jArray.getJSONObject(i);
+
+				// Pulling items from the array
+
+				String message = oneObject.getString("message");
+				Date date = new Date(Long.parseLong(oneObject.getString("time"))*1000);
+				messagePoint.AddMessage(new Message(message,date));
+
 			}
 		} catch (Exception e) { 
-		    // Oops
+			// Oops
 		}
 		finally {
-		    try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
+			try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
 		}
-		
+
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,31 +133,27 @@ public class MessageBoardActivity extends Activity {
 		//messagePoint  = new MessagePoint(new ArrayList<Message>(),new Point(42.0,66.6));
 		updateMP(messagePoint);
 		showMessages();
-        TextView mTextView = (TextView) findViewById(R.id.textView1);
+		TextView mTextView = (TextView) findViewById(R.id.textView1);
 		mTextView.setMovementMethod(new ScrollingMovementMethod());	
-        
-        EditText inputText = (EditText) findViewById(R.id.editText1);
-        inputText.setOnEditorActionListener(new OnEditorActionListener() {
+
+		EditText inputText = (EditText) findViewById(R.id.editText1);
+		inputText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int arg1, KeyEvent arg2) {
-        		boolean handled = false;
-        		if (arg1 == EditorInfo.IME_ACTION_SEND){
-        			sendMessage(v.getText().toString());
-        			updateMP(messagePoint);
-        			showMessages();
-        			v.setText("");
-        			v.clearFocus();
-        			handled = true;
-        		}
-        		return handled;
+				boolean handled = false;
+				if (arg1 == EditorInfo.IME_ACTION_SEND){
+					sendMessage(v.getText().toString());
+					updateMP(messagePoint);
+					showMessages();
+					v.setText("");
+					v.clearFocus();
+					handled = true;
+				}
+				return handled;
 			}	
-        	
-        });
-        
-        
-        
-	}
 
+		});  
+	}
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
@@ -195,6 +187,6 @@ public class MessageBoardActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 
 }

@@ -10,9 +10,9 @@ public class MessagePoint {
 	private int id;
 
 	/**
-	 * Returns a deep copy off the messages list.
+	 * Returns a deep copy of the messages list.
 	 * 
-	 * @return copy of messages.
+	 * @return Copy of messages.
 	 */
 	public ArrayList<Message> getMessages() {
 		ArrayList<Message> messagesCopy = new ArrayList<Message>();
@@ -24,7 +24,7 @@ public class MessagePoint {
 	}
 
 	/**
-	 * Returns a copy off the position.
+	 * Returns a copy of the position.
 	 * 
 	 * @return copy of position.
 	 */
