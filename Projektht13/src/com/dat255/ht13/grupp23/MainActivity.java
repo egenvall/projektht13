@@ -22,9 +22,9 @@ public class MainActivity extends FragmentActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		controller = new Controller(this);
-		//Intent intent = new Intent(this,MapsActivity.class);
-		//startActivity(intent);
+		controller = Controller.getInstance();
+		controller.initiate(this);
+		
 	}
 
 }

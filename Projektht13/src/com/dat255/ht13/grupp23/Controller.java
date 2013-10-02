@@ -6,30 +6,38 @@ import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 
 public class Controller implements Observer {
-
+	private static Controller controllerinstance = null;
 	private Model model;
-	private MapsActivity mapsactivity;
+	private MainActivity mainActivity;
 	
 
 
-	public Controller(FragmentActivity mainActivity) {
-		model = new Model();
-		mapsactivity = new MapsActivity();
-		mainActivity.startActivity(new Intent(mainActivity,MapsActivity.class));
-		mapsactivity.addObserver(this);
-
-
-
-
-
+	protected Controller() {
 	}
+	
+	public static Controller getInstance(){
+		if(controllerinstance == null){
+			controllerinstance = new Controller();
+		}
+		
+		return controllerinstance;
+		
+	}
+	
+	public void initiate(MainActivity activity){
+		this.mainActivity = activity;
+		model = new Model();
+		mainActivity.startActivity(new Intent(mainActivity,MapsActivity.class));
+	}
+	
+	
 
 
 
 	@Override
 	public void update(EventType eventType) {
 		if(eventType == EventType.MarkerClick){
-
+			System.out.println("Methods to do stuff when a marker is clicked");
 			
 		}
 
