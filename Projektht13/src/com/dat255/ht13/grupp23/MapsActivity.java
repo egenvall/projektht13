@@ -3,6 +3,17 @@ package com.dat255.ht13.grupp23;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,24 +25,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.app.Dialog;
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+public class MapsActivity extends FragmentActivity implements LocationListener,
+		Subject {
 
-public class MapsActivity extends FragmentActivity implements LocationListener,Subject {
-	GoogleMap googleMap;
-	
-	
+	private GoogleMap googleMap;
 	private ArrayList<Observer> observers;
-	
+	private ArrayList<IdentifiableMarker> markerList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,23 +41,23 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 		observers = new ArrayList<Observer>();
 		addObserver(Controller.getInstance());
 
-
 	}
 
-
-	public void addMarkerClickListener(){
-		googleMap.setOnMarkerClickListener(new OnMarkerClickListener(){
+	public void addMarkerClickListener() {
+		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 
 			@Override
 			public boolean onMarkerClick(Marker arg0) {
-				notifyObservers(EventType.MarkerClick);
+				notifyObservers(EventType.MarkerClick,
+						markerList.get(markerList.indexOf(arg0)).getId());
 				return false;
 			}
 
 		});
 	}
-	//public void 
-	public void initiateMap(){
+
+	// public void
+	public void initiateMap() {
 		// Getting Google Play availability status
 		int status = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(getBaseContext());
@@ -67,8 +67,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 			// not available
 
 			int requestCode = 10;
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status,
-					this, requestCode);
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,
+					requestCode);
 			dialog.show();
 
 		} else { // Google Play Services are available
@@ -80,8 +80,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 			// Getting GoogleMap object from the fragment
 			googleMap = fm.getMap();
 
-
-
 			// Enabling MyLocation Layer of Google Map
 			googleMap.setMyLocationEnabled(true);
 
@@ -89,8 +87,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 			// LOCATION_SERVICE
 			LocationManager locationManager = (LocationManager) this
 					.getSystemService(Context.LOCATION_SERVICE);
-
-
 
 			// Creating a criteria object to retrieve provider
 			Criteria criteria = new Criteria();
@@ -102,17 +98,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 			Location location = locationManager.getLastKnownLocation(provider);
 
 			if (location != null) {
-
-
 				onLocationChanged(location);
-				locationManager.requestLocationUpdates(provider, 20000,
-						0, this);
-
+				locationManager
+						.requestLocationUpdates(provider, 20000, 0, this);
 			}
 		}
 
 	}
-
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -139,7 +131,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 		// TODO Auto-generated method stub
 	}
 
-
 	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
@@ -150,15 +141,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 		// TODO Auto-generated method stub
 	}
 
-	public boolean onCreateOptionsMenu(Menu menu) { 
-		getMenuInflater().inflate(R.menu.main, menu); 
-		return true; 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 
 	}
 
 	// This function is made for putting markers on the current location.
 	// It sends a LatLng to .position in add marker options
-	public LatLng getLocForMarker(){
+	public LatLng getLocForMarker() {
 
 		Location myLocation = googleMap.getMyLocation();
 		LatLng myLatLng = new LatLng(myLocation.getLatitude(),
@@ -172,27 +163,21 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 
 		switch (item.getItemId()) {
 
-
 		case R.id.menu_addmarker:
-			googleMap.addMarker(new MarkerOptions()
-			.position(getLocForMarker())
-			.icon(BitmapDescriptorFactory
-					.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+			notifyObservers(EventType.AddMarker, new Point(
+					getLocForMarker().latitude, getLocForMarker().longitude));
+			/*googleMap.addMarker(new MarkerOptions().position(getLocForMarker())
+					.icon(BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));*/
 			break;
 		}
 		return true;
 	}
 
-
-
-
 	@Override
 	public void addObserver(Observer observer) {
-		observers.add(observer);		
+		observers.add(observer);
 	}
-
-
-
 
 	@Override
 	public void removeObserver(Observer observer) {
@@ -200,15 +185,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener,S
 
 	}
 
-
-
-
 	@Override
-	public void notifyObservers(EventType eventType) {
+	public void notifyObservers(EventType eventType, Point point) {
 		Iterator<Observer> iterator = observers.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().update(eventType);
-		}		
+			iterator.next().update(eventType, point);
+		}
+	}
+
+	@Override
+	public void notifyObservers(EventType eventType, int id) {
+		Iterator<Observer> iterator = observers.iterator();
+		while (iterator.hasNext()) {
+			iterator.next().update(eventType, id);
+		}
 	}
 
 }

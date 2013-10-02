@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class Model {
 
 	private ArrayList<MessagePoint> messagePoints;
+	private int lastId;
 
 	/**
 	 * Returns a deep copy off the messagePoints list.
@@ -26,22 +27,21 @@ public class Model {
 	 */
 	public Model() {
 		messagePoints = new ArrayList<MessagePoint>();
+		lastId = -1;
 	}
 
-	public void AddMessagePoint(MessagePoint messagePoint) {
-		messagePoints.add(messagePoint);
+	public void AddMessagePoint(Point position) {
+		lastId++;
+		messagePoints.add(new MessagePoint(new ArrayList<Message>(), position,
+				lastId));
 	}
 
-	public void AddMessagePoint(Point point) {
-		messagePoints.add(new MessagePoint(new ArrayList<Message>(), point));
+	public void RemoveMessagePoint(int id) {
+		// TODO
 	}
 
-	public void RemoveMessagePoint(MessagePoint messagePoint) {
-
-	}
-
-	public void RemoveMessagePoint(Point point) {
-
+	public void AddMessageToMessagePoint(int id, Message message) {
+		// Find messagePoint by id and AddMessage(message)
 	}
 
 }

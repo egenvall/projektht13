@@ -134,7 +134,7 @@ public class MessageBoardActivity extends Activity {
 		setContentView(R.layout.activity_message_board);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		messagePoint  = new MessagePoint(new ArrayList<Message>(),new Point(42.0,66.6));
+		//messagePoint  = new MessagePoint(new ArrayList<Message>(),new Point(42.0,66.6));
 		updateMP(messagePoint);
 		showMessages();
         TextView mTextView = (TextView) findViewById(R.id.textView1);

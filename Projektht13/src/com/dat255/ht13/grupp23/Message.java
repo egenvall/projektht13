@@ -32,7 +32,7 @@ public class Message {
 		this.text = text;
 		date = new Date();
 	}
-	
+
 	public Message(String text, Date date) {
 		this.text = text;
 		this.date = date;
@@ -44,7 +44,7 @@ public class Message {
 	public Message(Message message) {
 		this.text = message.getText();
 	}
-	
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object) {
@@ -54,14 +54,15 @@ public class Message {
 			return false;
 		}
 		if (object instanceof Message) {
-			Message other = (Message)object;
-			if (this.text.equals(other.getText()) && this.date.equals(other.getDate())) {
+			Message other = (Message) object;
+			if (this.text.equals(other.getText())
+					&& this.date.equals(other.getDate())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

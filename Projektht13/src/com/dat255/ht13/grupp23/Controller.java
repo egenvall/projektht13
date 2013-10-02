@@ -10,8 +10,6 @@ public class Controller implements Observer {
 	private Model model;
 	private MainActivity mainActivity;
 	
-
-
 	protected Controller() {
 	}
 	
@@ -30,18 +28,21 @@ public class Controller implements Observer {
 		mainActivity.startActivity(new Intent(mainActivity,MapsActivity.class));
 	}
 	
-	
-
-
-
 	@Override
-	public void update(EventType eventType) {
+	public void update(EventType eventType, int id) {
 		if(eventType == EventType.MarkerClick){
 			System.out.println("Methods to do stuff when a marker is clicked");
-			
+			model.AddMessageToMessagePoint(id, new Message("Text"));
 		}
-
-
+	}
+	
+	@Override
+	public void update(EventType eventType, Point position) {
+		
+		if(eventType == EventType.AddMarker){
+			System.out.println("A marker was added at: " + "X: " + position.getX() + "Y: "+ position.getY());
+			model.AddMessagePoint(position);
+		}
 	}
 
 }
