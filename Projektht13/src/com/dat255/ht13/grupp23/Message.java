@@ -43,6 +43,7 @@ public class Message {
 	 */
 	public Message(Message message) {
 		this.text = message.getText();
+		this.date = message.getDate();
 	}
 
 	@Override
