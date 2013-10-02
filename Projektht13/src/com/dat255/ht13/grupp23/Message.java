@@ -28,9 +28,14 @@ public class Message {
 		date = new Date();
 	}
 
-	public Message(String text, Date date) {
+	public Message(String text) {
 		this.text = text;
 		date = new Date();
+	}
+	
+	public Message(String text, Date date) {
+		this.text = text;
+		this.date = date;
 	}
 
 	/*
