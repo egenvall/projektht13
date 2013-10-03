@@ -8,5 +8,6 @@
     <string name="title_activity_message_board">MessageBoardActivity</string>
     <string name="messages">meddelanden:</string>
     <string name="testMeddelande">hejsan svejsan</string>
+    <string name="title_activity_map_controller">MapController</string>
 
 </resources>
