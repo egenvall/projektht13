@@ -51,10 +51,6 @@
 " />
         <!-- Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
         <activity
-            android:name="com.dat255.ht13.grupp23.MapsActivity"
-            android:label="@string/title_activity_maps" >
-        </activity>
-        <activity
             android:name="com.dat255.ht13.grupp23.MapController"
             android:label="@string/title_activity_map_controller" >
         </activity>
