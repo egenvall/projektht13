@@ -23,7 +23,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Model {
-
+	static Model singletonModel;
+	static Model getModel(){
+		if(singletonModel==null){
+			singletonModel=new Model();
+		}
+		return singletonModel;
+	}
 	private ArrayList<MessagePoint> messagePoints;
 
 	/**
@@ -36,6 +42,10 @@ public class Model {
 		HttpPost httppost = new HttpPost("http://web.student.chalmers.se/~wajohan/klotter/getjson.php");
 		InputStream inputStream = null;
 		String result = null;
+		Message nymessage = new Message("ny message");
+		ArrayList<Message> nyArrayList = new ArrayList<Message>();
+		nyArrayList.add(nymessage);
+		MessagePoint nyMessagePoint=new MessagePoint(nyArrayList,new Point(0,0),0);
 		try {
 		    HttpResponse response = httpclient.execute(httppost);           
 		    HttpEntity entity = response.getEntity();
@@ -54,11 +64,14 @@ public class Model {
 
 			JSONObject jObject = new JSONObject(result);
 			JSONArray jArray = jObject.getJSONArray("messages");
-			
+			//nyMessagePoint.AddMessage(new Message(Integer.toString(jArray.length())));
 			for (int i=0; i < jArray.length(); i++)
 			{
+			
 			    JSONObject oneObject = jArray.getJSONObject(i);
-			        
+
+		        sb.append(line + "\n");
+		    
 			    // Pulling items from the array
 			        
 			    String message = oneObject.getString("message");
@@ -67,8 +80,9 @@ public class Model {
 			    double y = Double.parseDouble(oneObject.getString("y"));
 			    Point point = new Point(x,y);
 			    Message newMessage = new Message(message,date);
-			    addMessageToMessagePoints(newMessage,point);
 			    
+			    //nyMessagePoint.AddMessage(newMessage);
+			    addMessageToMessagePoints(newMessage,point);
 			}
 		} catch (Exception e) { 
 		    // Oops
@@ -76,8 +90,7 @@ public class Model {
 		finally {
 		    try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
 		}
-			
-		
+		//messagePoints.add(nyMessagePoint);
 		ArrayList<MessagePoint> messagePointsCopy = new ArrayList<MessagePoint>();
 		Iterator<MessagePoint> iterator = messagePoints.iterator();
 		while (iterator.hasNext()) {
@@ -105,8 +118,8 @@ public class Model {
 	    if(!found){ //Add a new messagePoint
 	    	ArrayList<Message> messageList = new ArrayList<Message>();
 	    	messageList.add(message);			    	
-	    	//MessagePoint newMessagePoint = new MessagePoint(messageList,point);
-	    	//messagePoints.add(newMessagePoint);
+	    	MessagePoint newMessagePoint = new MessagePoint(messageList,point,0);
+	    	messagePoints.add(newMessagePoint);
 	    	
 	    }
 	    
@@ -135,7 +148,7 @@ public class Model {
 	        nameValuePairs.add(new BasicNameValuePair("message",message.getText()));	        
 	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 	        // Execute HTTP Post Request
-	        HttpResponse response = httpClient.execute(httpPost);
+	        httpClient.execute(httpPost);
 	        
 	    } catch (ClientProtocolException e) {
 	        // TODO Auto-generated catch block
