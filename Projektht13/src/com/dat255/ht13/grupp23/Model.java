@@ -105,8 +105,8 @@ public class Model {
 	    if(!found){ //Add a new messagePoint
 	    	ArrayList<Message> messageList = new ArrayList<Message>();
 	    	messageList.add(message);			    	
-	    	MessagePoint newMessagePoint = new MessagePoint(messageList,point);
-	    	messagePoints.add(newMessagePoint);
+	    	//MessagePoint newMessagePoint = new MessagePoint(messageList,point);
+	    	//messagePoints.add(newMessagePoint);
 	    	
 	    }
 	    
@@ -156,7 +156,7 @@ public class Model {
 	}
 
 	public void AddMessagePoint(Point point) {
-		messagePoints.add(new MessagePoint(new ArrayList<Message>(), point));
+		//messagePoints.add(new MessagePoint(new ArrayList<Message>(), point));
 	}
 
 	public void RemoveMessagePoint(MessagePoint messagePoint) {

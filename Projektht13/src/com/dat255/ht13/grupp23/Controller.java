@@ -32,7 +32,7 @@ public class Controller implements Observer {
 	public void update(EventType eventType, int id) {
 		if(eventType == EventType.MarkerClick){
 			System.out.println("Methods to do stuff when a marker is clicked");
-			model.AddMessageToMessagePoint(id, new Message("Text"));
+			//model.AddMessageToMessagePoint(id, new Message("Text"));
 		}
 	}
 	
