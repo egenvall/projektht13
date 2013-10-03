@@ -1,7 +1,6 @@
 package com.dat255.ht13.grupp23.test;
 
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
@@ -19,79 +18,58 @@ public class ModelTest extends TestCase{
 
 	
 	Model model;
-	Message message1;
-	Message message2;
 	
-	Message message3;
-	Message message4;
+	Point point1;
+	Point point2;
 	
-	ArrayList<Message> msgs1;
-	ArrayList<Message> msgs2;
-	Point position1;
-	Point position2;
-	
-	MessagePoint msgPoint1;
-	MessagePoint msgPoint2;
+	Message msg1;
+	Message msg2;
 	
 	ArrayList<MessagePoint> msgPoints;
 	public ModelTest() {
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		model = new Model();
-		
-		message1 = new Message("ModelTest");
-		message2 = new Message("ModelTest");
-		
-		message3 = new Message("Model");
-		message4 = new Message("Model");
-		msgs1 = new ArrayList<Message>();
-		msgs1.add(message1);
-		msgs1.add(message2);
-		
-		msgs2 = new ArrayList<Message>();
-		msgs2.add(message3);
-		msgs2.add(message4);
-		
-		position1 = new Point(11.11, 11.11);
-		position2 = new Point(22.22, 22.22);
-		
-		msgPoint1 = new MessagePoint(msgs1, position1);
-		msgPoint2 = new MessagePoint(msgs2, position2);
-		
-		model.AddMessagePoint(msgPoint2);
-		model.AddMessagePoint(msgPoint2);
-		
-		msgPoints = new ArrayList<MessagePoint>();
-		msgPoints.add(msgPoint1);
-		msgPoints.add(msgPoint1);
-		
+		point1 = new Point(11.11,11.11);
+		point2 = new Point(22.22,22.22);
+		msg1 = new Message("Test1");
+		msg2 = new Message("Test2");
 	}
 
 	@Test
 	public void testGetMessagePoints() {
-		assertFalse(msgPoints.equals(model.getMessagePoints()));
+		model.AddMessagePoint(point1);
+		assertEquals(1, model.getMessagePoints().size());
+	}
+
+	@Test
+	public void testAddMessagePoint_msg() {
+		model.AddMessagePoint(point1);
+		model.AddMessagePoint(point2);
+		assertTrue(model.getMessagePoints() instanceof ArrayList);
 		assertEquals(2, model.getMessagePoints().size());
 	}
 	@Test
-	public void testConstructor() {
-	
+	public void testRemoveMessagePoint() {
+		model.AddMessagePoint(point1);
+		model.AddMessagePoint(point2);
+		assertTrue(model.getMessagePoints() instanceof ArrayList);
+		assertEquals(2, model.getMessagePoints().size());
+		
+		model.RemoveMessagePoint(1);
+		assertEquals(1, model.getMessagePoints().size());
 	}
 	@Test
-	public void testAddMessagePoint_msgP() {
-	
+	public void testAddMessageToMessagePoint() {
+		model.AddMessagePoint(point1);
+		model.AddMessagePoint(point2);
+		model.AddMessageToMessagePoint(1, msg1);
+		model.AddMessageToMessagePoint(2, msg2);
+		assertTrue(model.getMessagePoints() instanceof ArrayList);
+		assertEquals(2, model.getMessagePoints().size());
+		assertEquals(point1, model.getMessagePoints().get(0));
 	}
-	@Test
-	public void testAddMessagePoint_P() {
-	
-	}
-	@Test
-	public void testRemoveMessagePoint_msgP() {
-	
-	}
-	@Test
-	public void testRemoveMessagePoint_P() {
-	
-	}	
 }

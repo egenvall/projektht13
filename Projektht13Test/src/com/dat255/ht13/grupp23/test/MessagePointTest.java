@@ -1,19 +1,12 @@
 package com.dat255.ht13.grupp23.test;
-
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
-
 import junit.framework.TestCase;
-import android.test.InstrumentationTestRunner;
-import android.test.suitebuilder.annotation.SmallTest;
-
 import com.dat255.ht13.grupp23.Message;
 import com.dat255.ht13.grupp23.MessagePoint;
 import com.dat255.ht13.grupp23.Point;
-
 
 public class MessagePointTest extends TestCase {
 	
@@ -33,29 +26,27 @@ public class MessagePointTest extends TestCase {
 	
 	MessagePoint equalsSymmetric_3;
 	
-	public MessagePointTest(String name) {
-		super(name);
+	public MessagePointTest() {
+		
 	}
-
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
+	
 		message1 = new Message("text1");
 		message2 = new Message("text1");
 		position = new Point(1,1);
 	
 		messageTestAdd = new Message("add");
 		messages = new ArrayList<Message>();
-		messages.add(message1);
-		messages.add(message2);
 		
-		NoParamCon = new MessagePoint();
-		ParamCon = new MessagePoint(messages, position);
+		NoParamCon = new MessagePoint(1);
+		ParamCon = new MessagePoint(messages, position,1);
 		CopyCon = new MessagePoint(ParamCon);
 		
-		equalsSymmetric_1 = new MessagePoint();
-		equalsSymmetric_2 = new MessagePoint();
+		equalsSymmetric_1 = new MessagePoint(1);
+		equalsSymmetric_2 = new MessagePoint(1);
 		
-		equalsSymmetric_3 = new MessagePoint(messages, position);
+		equalsSymmetric_3 = new MessagePoint(messages, position, 2);
 		
 	}
 	
