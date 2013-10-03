@@ -12,6 +12,10 @@ public class IdentifiableMarker {
 		this.id = id;
 	}
 	
+	public Marker getMarker() {
+		return marker;
+	}
+	
 	public int getId() {
 		return id;
 	}

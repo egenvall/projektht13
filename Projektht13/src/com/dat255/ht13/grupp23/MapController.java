@@ -3,9 +3,10 @@ package com.dat255.ht13.grupp23;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MapController extends FragmentActivity implements Observer {
-	
+
 	private MapModel mapModel;
 	private MapView mapView;
 
@@ -24,25 +25,16 @@ public class MapController extends FragmentActivity implements Observer {
 		getMenuInflater().inflate(R.menu.map_controller, menu);
 		return true;
 	}
-	
-	/*
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_addmarker:
-			KOLLAH€RnotifyObservers(EventType.AddMarker, new Point(
-					getLocForMarker().latitude, getLocForMarker().longitude));
-			
-			 googleMap.addMarker(new
-			 MarkerOptions().position(getLocForMarker())
-			 .icon(BitmapDescriptorFactory
-			 .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-			 
+			mapView.addMarker();
 			break;
 		}
 		return true;
 	}
-	*/
 
 	@Override
 	public void update(EventType eventType, int id) {
@@ -58,8 +50,8 @@ public class MapController extends FragmentActivity implements Observer {
 			System.out.println("A marker was added at: " + "X: "
 					+ position.getX() + "Y: " + position.getY());
 			mapModel.AddMessagePoint(position);
+			mapView.updateMap(mapModel.getMessagePoints());
 		}
 	}
 
 }
-
