@@ -33,8 +33,9 @@ public class MapView implements LocationListener, Subject {
 		initiateMap(fragmentActivity);
 		addMarkerClickListener();
 		observers = new ArrayList<Observer>();
+		markerList = new ArrayList<IdentifiableMarker>();
 	}
-	
+
 	public void updateMap(ArrayList<MessagePoint> messagePoints) {
 		markerList = new ArrayList<IdentifiableMarker>();
 		Iterator<MessagePoint> iterator = messagePoints.iterator();
@@ -51,17 +52,9 @@ public class MapView implements LocationListener, Subject {
 		}
 	}
 
-	public void addMarkerClickListener() {
-		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-			@Override
-			public boolean onMarkerClick(Marker arg0) {
-				notifyObservers(EventType.MarkerClick,
-						markerList.get(markerList.indexOf(arg0)).getId());
-				return false;
-			}
-
-		});
+	public void addMarker() {
+		notifyObservers(EventType.AddMarker, new Point(
+				getLocForMarker().latitude, getLocForMarker().longitude));
 	}
 
 	@Override
@@ -99,16 +92,6 @@ public class MapView implements LocationListener, Subject {
 		// TODO Auto-generated method stub
 	}
 
-	// This function is made for putting markers on the current location.
-	// It sends a LatLng to .position in add marker options
-	public LatLng getLocForMarker() {
-		Location myLocation = googleMap.getMyLocation();
-		LatLng myLatLng = new LatLng(myLocation.getLatitude(),
-				myLocation.getLongitude());
-
-		return myLatLng;
-	}
-
 	@Override
 	public void addObserver(Observer observer) {
 		observers.add(observer);
@@ -135,7 +118,7 @@ public class MapView implements LocationListener, Subject {
 			iterator.next().update(eventType, id);
 		}
 	}
-	
+
 	private void initiateMap(FragmentActivity fragmentActivity) {
 		// Getting Google Play availability status
 		int status = GooglePlayServicesUtil
@@ -184,6 +167,34 @@ public class MapView implements LocationListener, Subject {
 			}
 		}
 
+	}
+
+	private void addMarkerClickListener() {
+		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+			@Override
+			public boolean onMarkerClick(Marker arg0) {
+				Iterator<IdentifiableMarker> iterator = markerList.iterator();
+				while (iterator.hasNext()) {
+					IdentifiableMarker identifiableMarker = iterator.next();
+					if (identifiableMarker.getMarker().equals(arg0)) {
+						notifyObservers(EventType.MarkerClick,
+								identifiableMarker.getId());
+					}
+				}
+				return false;
+			}
+
+		});
+	}
+
+	// This function is made for putting markers on the current location.
+	// It sends a LatLng to .position in add marker options
+	private LatLng getLocForMarker() {
+		Location myLocation = googleMap.getMyLocation();
+		LatLng myLatLng = new LatLng(myLocation.getLatitude(),
+				myLocation.getLongitude());
+		return myLatLng;
 	}
 
 }
