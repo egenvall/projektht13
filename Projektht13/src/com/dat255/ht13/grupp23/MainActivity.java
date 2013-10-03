@@ -9,9 +9,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Intent mapIntent = new Intent(getApplicationContext(),
+				MapController.class);
+		startActivity(mapIntent);
 		finish();
-		Intent mapController = new Intent(this, MapController.class);
-		startActivity(mapController);
 	}
-
 }

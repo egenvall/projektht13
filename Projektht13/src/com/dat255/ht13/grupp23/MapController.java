@@ -1,5 +1,6 @@
 package com.dat255.ht13.grupp23;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -41,6 +42,11 @@ public class MapController extends FragmentActivity implements Observer {
 		if (eventType == EventType.MarkerClick) {
 			System.out.println("Methods to do stuff when a marker is clicked");
 			mapModel.AddMessageToMessagePoint(id, new Message("Text"));
+			
+			Intent msgIntent = new Intent(getApplicationContext(),
+					MessageController.class);
+			startActivity(msgIntent);
+			finish();
 		}
 	}
 
