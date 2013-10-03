@@ -3,7 +3,7 @@ package com.dat255.ht13.grupp23;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Model {
+public class MapModel {
 
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;
@@ -25,7 +25,7 @@ public class Model {
 	/*
 	 * Get MessagePoints from database etc.
 	 */
-	public Model() {
+	public MapModel() {
 		messagePoints = new ArrayList<MessagePoint>();
 		lastId = -1;
 	}

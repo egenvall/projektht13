@@ -11,8 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -25,22 +23,32 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements LocationListener,
-		Subject {
+public class MapView implements LocationListener, Subject {
 
 	private GoogleMap googleMap;
 	private ArrayList<Observer> observers;
 	private ArrayList<IdentifiableMarker> markerList;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_maps);
-		initiateMap();
+	public MapView(FragmentActivity fragmentActivity) {
+		initiateMap(fragmentActivity);
 		addMarkerClickListener();
 		observers = new ArrayList<Observer>();
-		addObserver(Controller.getInstance());
-
+	}
+	
+	public void updateMap(ArrayList<MessagePoint> messagePoints) {
+		markerList = new ArrayList<IdentifiableMarker>();
+		Iterator<MessagePoint> iterator = messagePoints.iterator();
+		while (iterator.hasNext()) {
+			MessagePoint messagePoint = iterator.next();
+			LatLng latLng = new LatLng(messagePoint.getPosition().getX(),
+					messagePoint.getPosition().getY());
+			Marker marker = googleMap.addMarker(new MarkerOptions().position(
+					latLng).icon(
+					BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+			markerList
+					.add(new IdentifiableMarker(marker, messagePoint.getId()));
+		}
 	}
 
 	public void addMarkerClickListener() {
@@ -54,56 +62,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 			}
 
 		});
-	}
-
-	// public void
-	public void initiateMap() {
-		// Getting Google Play availability status
-		int status = GooglePlayServicesUtil
-				.isGooglePlayServicesAvailable(getBaseContext());
-
-		// Showing status
-		if (status != ConnectionResult.SUCCESS) { // Google Play Services are
-			// not available
-
-			int requestCode = 10;
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this,
-					requestCode);
-			dialog.show();
-
-		} else { // Google Play Services are available
-
-			// Getting reference to the SupportMapFragment of activity_main.xml
-			SupportMapFragment fm = (SupportMapFragment) this
-					.getSupportFragmentManager().findFragmentById(R.id.map);
-
-			// Getting GoogleMap object from the fragment
-			googleMap = fm.getMap();
-
-			// Enabling MyLocation Layer of Google Map
-			googleMap.setMyLocationEnabled(true);
-
-			// Getting LocationManager object from System Service
-			// LOCATION_SERVICE
-			LocationManager locationManager = (LocationManager) this
-					.getSystemService(Context.LOCATION_SERVICE);
-
-			// Creating a criteria object to retrieve provider
-			Criteria criteria = new Criteria();
-
-			// Getting the name of the best provider
-			String provider = locationManager.getBestProvider(criteria, true);
-
-			// Getting Current Location
-			Location location = locationManager.getLastKnownLocation(provider);
-
-			if (location != null) {
-				onLocationChanged(location);
-				locationManager
-						.requestLocationUpdates(provider, 20000, 0, this);
-			}
-		}
-
 	}
 
 	@Override
@@ -141,37 +99,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 		// TODO Auto-generated method stub
 	}
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-
-	}
-
 	// This function is made for putting markers on the current location.
 	// It sends a LatLng to .position in add marker options
 	public LatLng getLocForMarker() {
-
 		Location myLocation = googleMap.getMyLocation();
 		LatLng myLatLng = new LatLng(myLocation.getLatitude(),
 				myLocation.getLongitude());
 
 		return myLatLng;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-
-		case R.id.menu_addmarker:
-			notifyObservers(EventType.AddMarker, new Point(
-					getLocForMarker().latitude, getLocForMarker().longitude));
-			/*googleMap.addMarker(new MarkerOptions().position(getLocForMarker())
-					.icon(BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));*/
-			break;
-		}
-		return true;
 	}
 
 	@Override
@@ -199,6 +134,56 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 		while (iterator.hasNext()) {
 			iterator.next().update(eventType, id);
 		}
+	}
+	
+	private void initiateMap(FragmentActivity fragmentActivity) {
+		// Getting Google Play availability status
+		int status = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(fragmentActivity
+						.getBaseContext());
+
+		// Showing status
+		if (status != ConnectionResult.SUCCESS) { // Google Play Services are
+			// not available
+
+			int requestCode = 10;
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status,
+					fragmentActivity, requestCode);
+			dialog.show();
+
+		} else { // Google Play Services are available
+
+			// Getting reference to the SupportMapFragment of activity_main.xml
+			SupportMapFragment fm = (SupportMapFragment) fragmentActivity
+					.getSupportFragmentManager().findFragmentById(R.id.map);
+
+			// Getting GoogleMap object from the fragment
+			googleMap = fm.getMap();
+
+			// Enabling MyLocation Layer of Google Map
+			googleMap.setMyLocationEnabled(true);
+
+			// Getting LocationManager object from System Service
+			// LOCATION_SERVICE
+			LocationManager locationManager = (LocationManager) fragmentActivity
+					.getSystemService(Context.LOCATION_SERVICE);
+
+			// Creating a criteria object to retrieve provider
+			Criteria criteria = new Criteria();
+
+			// Getting the name of the best provider
+			String provider = locationManager.getBestProvider(criteria, true);
+
+			// Getting Current Location
+			Location location = locationManager.getLastKnownLocation(provider);
+
+			if (location != null) {
+				onLocationChanged(location);
+				locationManager
+						.requestLocationUpdates(provider, 20000, 0, this);
+			}
+		}
+
 	}
 
 }
