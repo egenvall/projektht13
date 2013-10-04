@@ -44,9 +44,9 @@ public class MapController extends FragmentActivity implements Observer {
 			mapModel.AddMessageToMessagePoint(id, new Message("Text"));
 			
 			Intent msgIntent = new Intent(getApplicationContext(),
-					MessageController.class);
+					MessageActivity.class);
 			startActivity(msgIntent);
-			finish();
+			//finish();
 		}
 	}
 

@@ -58,6 +58,11 @@
             android:name="com.dat255.ht13.grupp23.MessageController"
             android:label="@string/title_activity_message_controller" >
         </activity>
+        <activity
+            android:name="com.dat255.ht13.grupp23.MessageActivity"
+            android:label="@string/title_activity_message_controller" >
+        </activity>
+        
     </application>
 
 </manifest>
