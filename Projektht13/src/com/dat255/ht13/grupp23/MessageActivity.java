@@ -96,7 +96,6 @@ public class MessageActivity extends Activity {
 		msgAddIntent.putExtra("addMessage", new Message(inputMessage.getText().toString()));
 		msgAddIntent.putExtra("addInMsgPID", msgPID);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
-		finish();
 		
 	}
 }
