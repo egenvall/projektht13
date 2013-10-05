@@ -28,7 +28,7 @@ public class MapModel {
 		}
 		return messagePointsCopy;
 	}
-	
+
 	public MessagePoint getMessagePointById(int id){
 		for(MessagePoint msgp : messagePoints){
 			if(msgp.getId() == id){
@@ -55,11 +55,11 @@ public class MapModel {
 	public void RemoveMessagePointById(int id) {
 		Iterator<MessagePoint> it = messagePoints.iterator();
 		while (it.hasNext()) {
-		  MessagePoint msgp = it.next();
-		  if(msgp.getId() == id){
-			  it.remove();
-		  }
-		  
+			MessagePoint msgp = it.next();
+			if(msgp.getId() == id){
+				it.remove();
+			}
+
 		}
 
 	}
@@ -71,7 +71,5 @@ public class MapModel {
 				break;
 			}
 		}
-		
 	}
-
 }

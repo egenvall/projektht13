@@ -2,10 +2,27 @@ package com.dat255.ht13.grupp23;
 
 import java.util.Date;
 
-public class Message {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Message implements Parcelable {
 
 	private String text;
 	private Date date;
+
+	public static final Parcelable.Creator<Message> CREATOR
+	= new Parcelable.Creator<Message>() {
+		@Override
+		public Message createFromParcel(Parcel in) {
+			return new Message(in);
+		}
+		
+		public Message[] newArray(int size) {
+			return new Message[size];
+		}
+
+	};
+
 
 	public String getText() {
 		return text;
@@ -71,6 +88,23 @@ public class Message {
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
+	}
+
+
+	public Message( Parcel source )
+	{
+		text = source.readString();
+		date = new Date( source.readLong() );
+	}
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(text);
+		dest.writeLong(date.getTime());
 	}
 
 }
