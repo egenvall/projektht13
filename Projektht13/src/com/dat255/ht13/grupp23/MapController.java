@@ -15,9 +15,11 @@ public class MapController extends FragmentActivity implements Observer {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_controller);
-		mapModel = new MapModel();
+		mapModel = MapModel.getModel();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
+		
+		
 	}
 
 	@Override
@@ -40,14 +42,18 @@ public class MapController extends FragmentActivity implements Observer {
 	@Override
 	public void update(EventType eventType, int id) {
 		if (eventType == EventType.MarkerClick) {
-			System.out.println("Methods to do stuff when a marker is clicked");
-			mapModel.AddMessageToMessagePoint(id, new Message("Text"));
-			
+			if((mapModel.getMessagePointById(id)).getMessages().size() == 0){
+				mapModel.AddMessageToMessagePoint(id, new Message("Text"));
+			}
 			Intent msgIntent = new Intent(getApplicationContext(),
 					MessageActivity.class);
+			Bundle b = new Bundle();
+			b.putInt("msgpointID", id);
+			msgIntent.putExtras(b);
 			startActivity(msgIntent);
+			System.out.println("Initiating a MessageActivity");
+			}
 			//finish();
-		}
 	}
 
 	@Override
@@ -57,6 +63,7 @@ public class MapController extends FragmentActivity implements Observer {
 					+ position.getX() + "Y: " + position.getY());
 			mapModel.AddMessagePoint(position);
 			mapView.updateMap(mapModel.getMessagePoints());
+			
 		}
 	}
 

@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MapModel {
+	static MapModel singletonModel;
+	static MapModel getModel(){
+		if(singletonModel == null){
+			singletonModel = new MapModel();
+		}
+		return singletonModel;
+	}
 
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;
@@ -21,6 +28,15 @@ public class MapModel {
 		}
 		return messagePointsCopy;
 	}
+	
+	public MessagePoint getMessagePointById(int id){
+		for(MessagePoint msgp : messagePoints){
+			if(msgp.getId() == id){
+				return msgp;
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * Get MessagePoints from database etc.
@@ -36,12 +52,26 @@ public class MapModel {
 				lastId));
 	}
 
-	public void RemoveMessagePoint(int id) {
-		// TODO
+	public void RemoveMessagePointById(int id) {
+		Iterator<MessagePoint> it = messagePoints.iterator();
+		while (it.hasNext()) {
+		  MessagePoint msgp = it.next();
+		  if(msgp.getId() == id){
+			  it.remove();
+		  }
+		  
+		}
+
 	}
 
 	public void AddMessageToMessagePoint(int id, Message message) {
-		// Find messagePoint by id and AddMessage(message)
+		for(MessagePoint msgp : messagePoints){
+			if(msgp.getId() == id){
+				msgp.AddMessage(message);
+				break;
+			}
+		}
+		
 	}
 
 }

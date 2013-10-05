@@ -28,16 +28,17 @@ public class MapView implements LocationListener, Subject {
 	private GoogleMap googleMap;
 	private ArrayList<Observer> observers;
 	private ArrayList<IdentifiableMarker> markerList;
-
+	
 	public MapView(FragmentActivity fragmentActivity) {
 		initiateMap(fragmentActivity);
 		addMarkerClickListener();
 		observers = new ArrayList<Observer>();
 		markerList = new ArrayList<IdentifiableMarker>();
+
 	}
 
 	public void updateMap(ArrayList<MessagePoint> messagePoints) {
-		markerList = new ArrayList<IdentifiableMarker>();
+		//markerList = new ArrayList<IdentifiableMarker>();
 		Iterator<MessagePoint> iterator = messagePoints.iterator();
 		while (iterator.hasNext()) {
 			MessagePoint messagePoint = iterator.next();
@@ -55,6 +56,7 @@ public class MapView implements LocationListener, Subject {
 	public void addMarker() {
 		notifyObservers(EventType.AddMarker, new Point(
 				getLocForMarker().latitude, getLocForMarker().longitude));
+	
 	}
 
 	@Override
@@ -100,7 +102,6 @@ public class MapView implements LocationListener, Subject {
 	@Override
 	public void removeObserver(Observer observer) {
 		observers.remove(observer);
-
 	}
 
 	@Override
@@ -166,6 +167,8 @@ public class MapView implements LocationListener, Subject {
 						.requestLocationUpdates(provider, 20000, 0, this);
 			}
 		}
+
+
 
 	}
 
