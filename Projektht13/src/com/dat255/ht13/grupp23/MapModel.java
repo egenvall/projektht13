@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MapModel {
-	static MapModel singletonModel;
-	static MapModel getModel(){
-		if(singletonModel == null){
-			singletonModel = new MapModel();
-		}
-		return singletonModel;
-	}
 
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;

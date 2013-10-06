@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MapController extends FragmentActivity implements Observer {
 
@@ -21,7 +20,7 @@ public class MapController extends FragmentActivity implements Observer {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_controller);
-		mapModel = MapModel.getModel();
+		mapModel = new MapModel();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
