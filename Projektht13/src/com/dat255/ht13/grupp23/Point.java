@@ -21,13 +21,19 @@ public class Point {
 		this.y = y;
 	}
 
+	/**
+	 * Constructor with x and y parameters.
+	 * @param x the position on the x-axis.
+	 * @param y the position on the y-axis.
+	 */
 	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	/*
+	/**
 	 * Copy constructor.
+	 * @param point the Point object to be copied.
 	 */
 	public Point(Point point) {
 		this.x = point.getX();

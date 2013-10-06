@@ -22,34 +22,43 @@ public class MapModel {
 		return messagePointsCopy;
 	}
 
-	public MessagePoint getMessagePointById(int id){
-		for(MessagePoint msgp : messagePoints){
-			if(msgp.getId() == id){
+	public MessagePoint getMessagePointById(int id) {
+		for (MessagePoint msgp : messagePoints) {
+			if (msgp.getId() == id) {
 				return msgp;
 			}
 		}
 		return null;
 	}
 
-	/*
-	 * Get MessagePoints from database etc.
-	 */
 	public MapModel() {
 		messagePoints = new ArrayList<MessagePoint>();
 		lastId = -1;
 	}
 
+	/**
+	 * Add a MessagePoint to position.
+	 * 
+	 * @param position
+	 *            the position of the MessagePoint.
+	 */
 	public void AddMessagePoint(Point position) {
 		lastId++;
 		messagePoints.add(new MessagePoint(new ArrayList<Message>(), position,
 				lastId));
 	}
 
+	/**
+	 * Remove the MessagePoint with the matching id.
+	 * 
+	 * @param id
+	 *            the id of the MessagePoint to be removed.
+	 */
 	public void RemoveMessagePointById(int id) {
 		Iterator<MessagePoint> it = messagePoints.iterator();
 		while (it.hasNext()) {
 			MessagePoint msgp = it.next();
-			if(msgp.getId() == id){
+			if (msgp.getId() == id) {
 				it.remove();
 			}
 
@@ -57,9 +66,18 @@ public class MapModel {
 
 	}
 
+	/**
+	 * Add a Message to the MessagePoint with the correct id.
+	 * 
+	 * @param id
+	 *            the id of the MessagePoint that the Message should be added
+	 *            to.
+	 * @param message
+	 *            the Message to be added to the MessagePoint.
+	 */
 	public void AddMessageToMessagePoint(int id, Message message) {
-		for(MessagePoint msgp : messagePoints){
-			if(msgp.getId() == id){
+		for (MessagePoint msgp : messagePoints) {
+			if (msgp.getId() == id) {
 				msgp.AddMessage(message);
 				break;
 			}

@@ -10,19 +10,17 @@ public class Message implements Parcelable {
 	private String text;
 	private Date date;
 
-	public static final Parcelable.Creator<Message> CREATOR
-	= new Parcelable.Creator<Message>() {
+	public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
 		@Override
 		public Message createFromParcel(Parcel in) {
 			return new Message(in);
 		}
-		
+
 		public Message[] newArray(int size) {
 			return new Message[size];
 		}
 
 	};
-
 
 	public String getText() {
 		return text;
@@ -37,7 +35,7 @@ public class Message implements Parcelable {
 		return new Date(date.getTime());
 	}
 
-	/*
+	/**
 	 * Default constructor.
 	 */
 	public Message() {
@@ -45,18 +43,48 @@ public class Message implements Parcelable {
 		date = new Date();
 	}
 
+	/**
+	 * Constructor with specified message text.
+	 * 
+	 * @param text
+	 *            the text of the Message.
+	 */
 	public Message(String text) {
 		this.text = text;
 		date = new Date();
 	}
 
+	/**
+	 * Constructor with specified message text and date. Is used when data from
+	 * the database needs to be recreated as a Message object.
+	 * 
+	 * @param text
+	 *            the text of the Message.
+	 * @param date
+	 *            the date of the Message.
+	 */
 	public Message(String text, Date date) {
 		this.text = text;
 		this.date = date;
 	}
 
-	/*
+	/**
+	 * Constructor with a Parcel parameter for passing Messages between
+	 * Activities.
+	 * 
+	 * @param source
+	 *            the Parcel that possess the data.
+	 */
+	public Message(Parcel source) {
+		text = source.readString();
+		date = new Date(source.readLong());
+	}
+
+	/**
 	 * Copy constructor.
+	 * 
+	 * @param message
+	 *            the Message object to be copied.
 	 */
 	public Message(Message message) {
 		this.text = message.getText();
@@ -90,12 +118,6 @@ public class Message implements Parcelable {
 		return result;
 	}
 
-
-	public Message( Parcel source )
-	{
-		text = source.readString();
-		date = new Date( source.readLong() );
-	}
 	@Override
 	public int describeContents() {
 		return 0;
