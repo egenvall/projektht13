@@ -23,12 +23,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * Class representing the View in the applications main MVC. Contains the
+ * GoogleMap and draws items on it
+ * 
+ * @author kimegenvall
+ * 
+ */
 public class MapView implements LocationListener, Subject {
 
 	private GoogleMap googleMap;
 	private ArrayList<Observer> observers;
 	private ArrayList<IdentifiableMarker> markerList;
-	
+
 	public MapView(FragmentActivity fragmentActivity) {
 		initiateMap(fragmentActivity);
 		addMarkerClickListener();
@@ -37,8 +44,15 @@ public class MapView implements LocationListener, Subject {
 
 	}
 
+	/**
+	 * Draws all available markers on the map. Iterates over a list of
+	 * messagePoints (i.e markers) and adds them as identifiable markers
+	 * 
+	 * 
+	 * @param messagePoints
+	 */
 	public void updateMap(ArrayList<MessagePoint> messagePoints) {
-		//markerList = new ArrayList<IdentifiableMarker>();
+		// markerList = new ArrayList<IdentifiableMarker>();
 		Iterator<MessagePoint> iterator = messagePoints.iterator();
 		while (iterator.hasNext()) {
 			MessagePoint messagePoint = iterator.next();
@@ -56,9 +70,13 @@ public class MapView implements LocationListener, Subject {
 	public void addMarker() {
 		notifyObservers(EventType.AddMarker, new Point(
 				getLocForMarker().latitude, getLocForMarker().longitude));
-	
+
 	}
 
+	/**
+	 * Handles the zoom and animation of the camera when users location has
+	 * changed.
+	 */
 	@Override
 	public void onLocationChanged(Location location) {
 
@@ -120,6 +138,11 @@ public class MapView implements LocationListener, Subject {
 		}
 	}
 
+	/**
+	 * Initiating the GoogleMap and all necessary items for the configuration
+	 * 
+	 * @param fragmentActivity
+	 */
 	private void initiateMap(FragmentActivity fragmentActivity) {
 		// Getting Google Play availability status
 		int status = GooglePlayServicesUtil
@@ -168,9 +191,11 @@ public class MapView implements LocationListener, Subject {
 			}
 		}
 
-
-
 	}
+
+	/**
+	 * Adds a ClickListener to all IdentifiableMarkers.
+	 */
 
 	private void addMarkerClickListener() {
 		googleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
@@ -191,8 +216,11 @@ public class MapView implements LocationListener, Subject {
 		});
 	}
 
-	// This function is made for putting markers on the current location.
-	// It sends a LatLng to .position in add marker options
+	/**
+	 * Returns users current location.
+	 * 
+	 * @return
+	 */
 	private LatLng getLocForMarker() {
 		Location myLocation = googleMap.getMyLocation();
 		LatLng myLatLng = new LatLng(myLocation.getLatitude(),

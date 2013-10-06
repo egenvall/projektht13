@@ -10,6 +10,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Class in charge of controlling the MVC pattern
+ * @author kimegenvall
+ *
+ */
+
 public class MapController extends FragmentActivity implements Observer {
 
 	private MapModel mapModel;
