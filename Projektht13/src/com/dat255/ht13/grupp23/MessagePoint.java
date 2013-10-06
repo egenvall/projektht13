@@ -7,11 +7,12 @@ public class MessagePoint {
 
 	private ArrayList<Message> messages;
 	private Point position;
+	private int id;
 
 	/**
-	 * Returns a deep copy off the messages list.
+	 * Returns a deep copy of the messages list.
 	 * 
-	 * @return copy of messages.
+	 * @return Copy of messages.
 	 */
 	public ArrayList<Message> getMessages() {
 		ArrayList<Message> messagesCopy = new ArrayList<Message>();
@@ -23,12 +24,16 @@ public class MessagePoint {
 	}
 
 	/**
-	 * Returns a copy off the position.
+	 * Returns a copy of the position.
 	 * 
 	 * @return copy of position.
 	 */
 	public Point getPosition() {
 		return new Point(position);
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public void AddMessage(Message message) {
@@ -38,14 +43,16 @@ public class MessagePoint {
 	/*
 	 * Default constructor.
 	 */
-	public MessagePoint() {
+	public MessagePoint(int id) {
 		this.messages = new ArrayList<Message>();
 		this.position = new Point(0, 0);
+		this.id = id;
 	}
 
-	public MessagePoint(ArrayList<Message> messages, Point position) {
+	public MessagePoint(ArrayList<Message> messages, Point position, int id) {
 		this.messages = messages;
 		this.position = position;
+		this.id = id;
 	}
 
 	/*
@@ -54,6 +61,7 @@ public class MessagePoint {
 	public MessagePoint(MessagePoint messagePoint) {
 		this.messages = messagePoint.getMessages();
 		this.position = messagePoint.getPosition();
+		this.id = messagePoint.getId();
 	}
 
 	@Override

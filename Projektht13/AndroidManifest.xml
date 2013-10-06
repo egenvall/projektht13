@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -30,7 +31,7 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="false"
+        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -46,12 +47,16 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB2GCoO6BAaS4EJEy8Dq18p7qSbI7C0ab0
+            android:value="AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo
 " />
         <!-- Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
         <activity
-            android:name="com.dat255.ht13.grupp23.MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:name="com.dat255.ht13.grupp23.MapController"
+            android:label="@string/title_activity_map_controller" >
+        </activity>
+        <activity
+            android:name="com.dat255.ht13.grupp23.MessageController"
+            android:label="@string/title_activity_message_controller" >
         </activity>
     </application>
 

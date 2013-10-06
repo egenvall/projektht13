@@ -1,6 +1,5 @@
 package com.dat255.ht13.grupp23.test;
 
-import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -24,6 +23,7 @@ public class PointTest extends TestCase {
 	public PointTest() {
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		point1 = new Point(11.11,22.22);

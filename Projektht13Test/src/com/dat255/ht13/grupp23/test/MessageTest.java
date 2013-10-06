@@ -1,11 +1,8 @@
 package com.dat255.ht13.grupp23.test;
 import java.util.Date;
-import static org.junit.Assert.*;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.Test;
-
 import com.dat255.ht13.grupp23.Message;
 
 public class MessageTest extends TestCase{
@@ -22,6 +19,7 @@ public class MessageTest extends TestCase{
 	public MessageTest() {
 	}
 
+	
 	@Before
 	public void setUp() throws Exception {
 		NoParamCon = new Message();
@@ -37,10 +35,12 @@ public class MessageTest extends TestCase{
 	@Test
 	public void testNoParamCon() {
 		assertTrue(NoParamCon instanceof Message);
+		assertEquals("", NoParamCon.getText());
 	}
 	@Test
 	public void testParamCon() {
 		assertTrue(ParamCon instanceof Message);
+		assertEquals("ConWithParam", ParamCon.getText());
 	}
 	@Test
 	public void testCopyCon() {
