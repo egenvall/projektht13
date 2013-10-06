@@ -79,7 +79,8 @@ public class MapController extends FragmentActivity implements Observer {
 			 //Toast.makeText(context,""+((Message)intent.getExtras().getParcelable("addMessage")).getText(), Toast.LENGTH_LONG).show();
 			 
 			mapModel.AddMessageToMessagePoint(intent.getExtras().getInt("addInMsgPID"), (Message)intent.getExtras().getParcelable("addMessage"));
-
+			update(EventType.MarkerClick,intent.getExtras().getInt("addInMsgPID"));
+			
 		}
 	};
 	@Override
