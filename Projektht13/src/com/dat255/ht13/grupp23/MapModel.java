@@ -23,7 +23,9 @@ public class MapModel {
 	}
 
 	public MessagePoint getMessagePointById(int id) {
-		for (MessagePoint msgp : messagePoints) {
+		Iterator<MessagePoint> it = messagePoints.iterator();
+		while (it.hasNext()) {
+			MessagePoint msgp = it.next();
 			if (msgp.getId() == id) {
 				return msgp;
 			}
@@ -60,10 +62,9 @@ public class MapModel {
 			MessagePoint msgp = it.next();
 			if (msgp.getId() == id) {
 				it.remove();
+				break;
 			}
-
 		}
-
 	}
 
 	/**
@@ -76,7 +77,9 @@ public class MapModel {
 	 *            the Message to be added to the MessagePoint.
 	 */
 	public void AddMessageToMessagePoint(int id, Message message) {
-		for (MessagePoint msgp : messagePoints) {
+		Iterator<MessagePoint> it = messagePoints.iterator();
+		while (it.hasNext()) {
+			MessagePoint msgp = it.next();
 			if (msgp.getId() == id) {
 				msgp.AddMessage(message);
 				break;
