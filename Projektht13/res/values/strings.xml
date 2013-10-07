@@ -11,5 +11,7 @@
     <string name="title_activity_map_controller">MapController</string>
     <string name="title_activity_message_controller">MessageController</string>
     <string name="message">Message: </string>
+    <string name="LoginActivity">LoginActivity: </string>
+    <string name="RegisterActivity">RegisterActivity: </string>
 
 </resources>
