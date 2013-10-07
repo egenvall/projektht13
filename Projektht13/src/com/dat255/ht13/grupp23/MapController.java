@@ -1,5 +1,11 @@
 package com.dat255.ht13.grupp23;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.lang.Math;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +26,7 @@ public class MapController extends FragmentActivity implements Observer {
 
 	private MapModel mapModel;
 	private MapView mapView;
+	private double minDistance = 1; // Minimum Distance (SET TO 1 WHILE TESTING)
 
 	/**
 	 * OnCreate for MapController. Sets the layout view for the window,
@@ -29,12 +36,12 @@ public class MapController extends FragmentActivity implements Observer {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_controller);
-		mapModel = new MapModel();
+		mapModel = MapModel.getInstance();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
+		mapView.updateMap(mapModel.getMessagePoints()); //Another solution? While tilt, the markers disappears..
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
 				new IntentFilter("bdr"));
-
 	}
 
 	@Override
@@ -100,14 +107,54 @@ public class MapController extends FragmentActivity implements Observer {
 	@Override
 	public void update(EventType eventType, Point position) {
 		if (eventType == EventType.AddMarker) {
-			System.out.println("A marker was added at: " + "X: "
-					+ position.getX() + "Y: " + position.getY());
-			mapModel.AddMessagePoint(position);
-			mapView.updateMap(mapModel.getMessagePoints());
-
+			if(checkIfMarkersAround(position)){
+				System.out.println("A marker was added at: " + "X: "
+						+ position.getX() + "Y: " + position.getY());
+				mapModel.AddMessagePoint(position);
+				mapView.updateMap(mapModel.getMessagePoints());
+			}else{
+				System.out.println("Too close");
+			}
 		}
 	}
+
+	public boolean checkIfMarkersAround(Point position){
+		ArrayList<MessagePoint> messagePoints = mapModel.getMessagePoints();
+		Iterator<MessagePoint> it = messagePoints.iterator();
+		while (it.hasNext()) {
+			MessagePoint msgp = it.next();			
+			if(calculateDistance(msgp.getPosition(), position) < minDistance){
+				return false;
+			}
+		}
+		return true;
+
+	}
 	
+	public double calculateDistance(Point anotherPosition, Point currentPosition){
+		LatLng latlng1 = new LatLng(anotherPosition.getX(),anotherPosition.getX());
+		double lat1 = latlng1.latitude;
+		double lng1 = latlng1.longitude;
+		
+		LatLng latlng2 = new LatLng(currentPosition.getX(),currentPosition.getX());
+		double lat2 = latlng2.latitude;
+		double lng2 = latlng2.longitude;	
+		
+		double earthRadius = 3958.75;
+		double dLat = Math.toRadians(lat2-lat1);
+		double dLng = Math.toRadians(lng2-lng1);
+		double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+				Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+				Math.sin(dLng/2) * Math.sin(dLng/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double dist = earthRadius * c;
+
+		double meterConversion = 1609;
+
+		return (dist * meterConversion);
+
+	}
+
 	/**
 	 * Inner class for receiving data from MessageActivity
 	 */
@@ -135,5 +182,4 @@ public class MapController extends FragmentActivity implements Observer {
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 		super.onDestroy();
 	}
-
 }
