@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * Class in charge of controlling the MVC pattern
@@ -113,7 +114,8 @@ public class MapController extends FragmentActivity implements Observer {
 				mapModel.AddMessagePoint(position);
 				mapView.updateMap(mapModel.getMessagePoints());
 			}else{
-				System.out.println("Too close");
+				Toast.makeText(getApplicationContext(), "You are too close to another Marker, minimum distance: " + minDistance + "m", Toast.LENGTH_LONG).show();
+
 			}
 		}
 	}
