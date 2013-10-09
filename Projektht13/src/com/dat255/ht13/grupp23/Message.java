@@ -5,22 +5,10 @@ import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Message implements Parcelable {
+public class Message {
 
 	private String text;
 	private Date date;
-
-	public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
-		@Override
-		public Message createFromParcel(Parcel in) {
-			return new Message(in);
-		}
-
-		public Message[] newArray(int size) {
-			return new Message[size];
-		}
-
-	};
 
 	public String getText() {
 		return text;
@@ -69,18 +57,6 @@ public class Message implements Parcelable {
 	}
 
 	/**
-	 * Constructor with a Parcel parameter for passing Messages between
-	 * Activities.
-	 * 
-	 * @param source
-	 *            the Parcel that possess the data.
-	 */
-	public Message(Parcel source) {
-		text = source.readString();
-		date = new Date(source.readLong());
-	}
-
-	/**
 	 * Copy constructor.
 	 * 
 	 * @param message
@@ -116,17 +92,6 @@ public class Message implements Parcelable {
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(text);
-		dest.writeLong(date.getTime());
 	}
 
 }
