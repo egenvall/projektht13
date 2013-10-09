@@ -8,13 +8,6 @@ public class MapModel {
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;
 
-	  private static MapModel instance = null;
-	   public static MapModel getInstance() {
-	      if(instance == null) {
-	         instance = new MapModel();
-	      }
-	      return instance;
-	   }
 	/**
 	 * Returns a deep copy off the messagePoints list.
 	 * 

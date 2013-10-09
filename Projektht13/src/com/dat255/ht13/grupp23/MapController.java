@@ -18,7 +18,6 @@ import android.view.MenuItem;
 
 /**
  * Class in charge of controlling the MVC pattern
- * @author kimegenvall
  *
  */
 
@@ -36,7 +35,7 @@ public class MapController extends FragmentActivity implements Observer {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_controller);
-		mapModel = MapModel.getInstance();
+		mapModel = new MapModel();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
 		mapView.updateMap(mapModel.getMessagePoints()); //Another solution? While tilt, the markers disappears..
