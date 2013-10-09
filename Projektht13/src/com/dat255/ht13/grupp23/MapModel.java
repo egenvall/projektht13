@@ -1,16 +1,34 @@
 package com.dat255.ht13.grupp23;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MapModel {
 
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;
 
-	private void addMessageToMessagePoints(Message message,int id){
+/*	private void addMessageToMessagePoints(Message message,int id){
 	    //inserts a message to a messagepoint.
-		boolean found = false;
 	    MessagePoint mp=getMP(id);
 	    if(mp==null)
 	        return;        	
@@ -24,7 +42,7 @@ public class MapModel {
 	    if(message.getDate().after(after))
 	    	mp.AddMessage(message);	    
 	}
-	
+*/	
 	
 	
 	
@@ -75,7 +93,7 @@ public class MapModel {
 			    Date date = new Date(Long.parseLong(oneObject.getString("time"))*1000);
 			    int id = Integer.parseInt(oneObject.getString("mpid"));
 			    Message newMessage = new Message(message,date);
-			    addMessageToMessagePoints(newMessage,id);
+			    getMP(id).AddMessage(newMessage);
 			}			
 			
 		}catch (Exception e) { 
@@ -84,6 +102,7 @@ public class MapModel {
 	}
 	
     private void updateMPs(){
+    	messagePoints=new ArrayList<MessagePoint>();
         //This method updates the messagePoints list with all the MessagePoints on the server side
         DefaultHttpClient   httpclient = new DefaultHttpClient(new BasicHttpParams());
 		HttpPost httppost = new HttpPost("http://web.student.chalmers.se/~wajohan/mongodb/getmessagepoints.php");
@@ -113,14 +132,13 @@ public class MapModel {
 			    double x = Double.parseDouble(oneObject.getString("x"));
 			    double y = Double.parseDouble(oneObject.getString("y"));
 			    
-			    if(getMP(id)==null){ //then we have to create a new messagePoint and add it to the list.
-			        Point point = new Point(x,y);
-			        MessagePoint newMessagePoint = MessagePoint(new ArrayList<Message>,point,id);
-			        messagePoint.add(newMessagePoint);
-			        if(lastID<id)
-			            lastID=id;	        
-			    }		    
+			    MessagePoint newMessagePoint = new MessagePoint(new ArrayList<Message>(),new Point(x,y),id);
+			    messagePoints.add(newMessagePoint);
+			    if(lastId<id)
+			    	lastId=id;	        
+			    		    
 			}
+		    
 	    }catch (Exception e) { 
 		    // Oops
 		}
@@ -141,9 +159,8 @@ public class MapModel {
 
 	public MessagePoint getMessagePointById(int id) {
 		//This method updates ONE MessagePoint and returns it 
-		updateMPs();
-		
-		return getMP(int id);
+		updateMPs();		
+		return getMP(id);
 	}
 	
 	public MapModel() {
@@ -159,8 +176,25 @@ public class MapModel {
 	 */
 	public void AddMessagePoint(Point position) {
 		lastId++;
-		messagePoints.add(new MessagePoint(new ArrayList<Message>(), position,
-				lastId));
+		MessagePoint newMP = new MessagePoint(new ArrayList<Message>(), position, lastId);
+		messagePoints.add(newMP);
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost("http://web.student.chalmers.se/~wajohan/mongodb/postmessagepoint.php");
+		
+	    try {
+	        // Add your data
+	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	        nameValuePairs.add(new BasicNameValuePair("mpid", String.valueOf(newMP.getId())));
+	        nameValuePairs.add(new BasicNameValuePair("x",String.valueOf(newMP.getPosition().getX())));
+	        nameValuePairs.add(new BasicNameValuePair("y",String.valueOf(newMP.getPosition().getY())));	        	        
+	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+	        // Execute HTTP Post Request
+	        httpClient.execute(httpPost);	        
+	    } catch (ClientProtocolException e) {
+	        // TODO Auto-generated catch block
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	    }				
 	}
 
 	/**
@@ -190,13 +224,25 @@ public class MapModel {
 	 *            the Message to be added to the MessagePoint.
 	 */
 	public void AddMessageToMessagePoint(int id, Message message) {
-		Iterator<MessagePoint> it = messagePoints.iterator();
-		while (it.hasNext()) {
-			MessagePoint msgp = it.next();
-			if (msgp.getId() == id) {
-				msgp.AddMessage(message);
-				break;
-			}
-		}
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost("http://web.student.chalmers.se/~wajohan/mongodb/postmessage.php");
+		
+	    try {
+	        // Add your data
+	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	        nameValuePairs.add(new BasicNameValuePair("mpid", String.valueOf(id)));
+	        nameValuePairs.add(new BasicNameValuePair("message",message.getText()));	        
+	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
+	        // Execute HTTP Post Request
+	        httpClient.execute(httpPost);
+	        
+	    } catch (ClientProtocolException e) {
+	        // TODO Auto-generated catch block
+	    } catch (IOException e) {
+	        // TODO Auto-generated catch block
+	    }
+
 	}
+        
+	
 }
