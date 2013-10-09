@@ -1,6 +1,8 @@
 package com.dat255.ht13.grupp23;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import android.app.Activity;
@@ -14,17 +16,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class MessageActivity extends Activity {
 
 
 	private CustomListViewAdapter adapter;
-	private ArrayList<Message> messages;
+	private ArrayList<ParcelableMessage> messages;
 	private EditText inputMessage;
 	private String text;
 	private Date date;
 	private int msgPID;
-	Intent refresh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class MessageActivity extends Activity {
 		inputMessage = (EditText) findViewById(R.id.inputMessage);
 		// Post Button
 		Button post = (Button) findViewById(R.id.postMessage);
-		
+
 		createAndShowMessageList();
 
 		//Click event for POST button 
@@ -76,13 +78,14 @@ public class MessageActivity extends Activity {
 			items.add(new ListViewItem()
 			{{
 				ThumbNailResource = 1;
-				Title = date.toString() ;
+				Title = new SimpleDateFormat("MMMM d 'at' h:mm a").format(date);
 				SubTitle = text;
 			}});
 		}
-		adapter= new CustomListViewAdapter(this, items);        
+		Collections.reverse(items);
+		adapter = new CustomListViewAdapter(this, items);        
 		lv.setAdapter(adapter);
-		
+
 		// Click event for single list row
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -92,12 +95,16 @@ public class MessageActivity extends Activity {
 		});	
 	}
 	private void addMsgToMsgPoint(){
-		Intent msgAddIntent = new Intent("bdr");
-		msgAddIntent.putExtra("addMessage", new Message(inputMessage.getText().toString()));
-		msgAddIntent.putExtra("addInMsgPID", msgPID);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
-		finish();
-		
+		String inputText = inputMessage.getText().toString();
+		if(inputText.length() < 3){
+			Toast.makeText(getApplicationContext(), "Your message is too short", Toast.LENGTH_LONG).show();
+		}else{
+			Intent msgAddIntent = new Intent("bdr");
+			msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputText));
+			msgAddIntent.putExtra("addInMsgPID", msgPID);
+			LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
+			finish();
+		}
 	}
 }
 
