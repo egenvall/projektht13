@@ -19,7 +19,7 @@ public class MessageActivity extends Activity {
 
 
 	private CustomListViewAdapter adapter;
-	private ArrayList<Message> messages;
+	private ArrayList<ParcelableMessage> messages;
 	private EditText inputMessage;
 	private String text;
 	private Date date;
@@ -93,7 +93,7 @@ public class MessageActivity extends Activity {
 	}
 	private void addMsgToMsgPoint(){
 		Intent msgAddIntent = new Intent("bdr");
-		msgAddIntent.putExtra("addMessage", new Message(inputMessage.getText().toString()));
+		msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputMessage.getText().toString()));
 		msgAddIntent.putExtra("addInMsgPID", msgPID);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
 		finish();

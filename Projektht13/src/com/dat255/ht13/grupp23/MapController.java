@@ -18,7 +18,7 @@ import android.view.MenuItem;
 
 /**
  * Class in charge of controlling the MVC pattern
- *
+ * 
  */
 
 public class MapController extends FragmentActivity implements Observer {
@@ -38,7 +38,9 @@ public class MapController extends FragmentActivity implements Observer {
 		mapModel = new MapModel();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
-		mapView.updateMap(mapModel.getMessagePoints()); //Another solution? While tilt, the markers disappears..
+		mapView.updateMap(mapModel.getMessagePoints()); // Another solution?
+														// While tilt, the
+														// markers disappears..
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
 				new IntentFilter("bdr"));
 	}
@@ -84,8 +86,13 @@ public class MapController extends FragmentActivity implements Observer {
 			}
 			Intent msgIntent = new Intent(MapController.this,
 					MessageActivity.class);
-			msgIntent.putParcelableArrayListExtra("messages", mapModel
-					.getMessagePointById(id).getMessages());
+			ArrayList<ParcelableMessage> parcelableMessages = new ArrayList<ParcelableMessage>();
+			Iterator<Message> iterator = mapModel.getMessagePointById(id)
+					.getMessages().iterator();
+			while (iterator.hasNext()) {
+				parcelableMessages.add(new ParcelableMessage(iterator.next()));
+			}
+			msgIntent.putParcelableArrayListExtra("messages", parcelableMessages);
 			msgIntent.putExtra("msgPID", id);
 			startActivity(msgIntent);
 			System.out.println("Initiating a MessageActivity");
@@ -106,46 +113,49 @@ public class MapController extends FragmentActivity implements Observer {
 	@Override
 	public void update(EventType eventType, Point position) {
 		if (eventType == EventType.AddMarker) {
-			if(checkIfMarkersAround(position)){
+			if (checkIfMarkersAround(position)) {
 				System.out.println("A marker was added at: " + "X: "
 						+ position.getX() + "Y: " + position.getY());
 				mapModel.AddMessagePoint(position);
 				mapView.updateMap(mapModel.getMessagePoints());
-			}else{
+			} else {
 				System.out.println("Too close");
 			}
 		}
 	}
 
-	public boolean checkIfMarkersAround(Point position){
+	public boolean checkIfMarkersAround(Point position) {
 		ArrayList<MessagePoint> messagePoints = mapModel.getMessagePoints();
 		Iterator<MessagePoint> it = messagePoints.iterator();
 		while (it.hasNext()) {
-			MessagePoint msgp = it.next();			
-			if(calculateDistance(msgp.getPosition(), position) < minDistance){
+			MessagePoint msgp = it.next();
+			if (calculateDistance(msgp.getPosition(), position) < minDistance) {
 				return false;
 			}
 		}
 		return true;
 
 	}
-	
-	public double calculateDistance(Point anotherPosition, Point currentPosition){
-		LatLng latlng1 = new LatLng(anotherPosition.getX(),anotherPosition.getX());
+
+	public double calculateDistance(Point anotherPosition, Point currentPosition) {
+		LatLng latlng1 = new LatLng(anotherPosition.getX(),
+				anotherPosition.getX());
 		double lat1 = latlng1.latitude;
 		double lng1 = latlng1.longitude;
-		
-		LatLng latlng2 = new LatLng(currentPosition.getX(),currentPosition.getX());
+
+		LatLng latlng2 = new LatLng(currentPosition.getX(),
+				currentPosition.getX());
 		double lat2 = latlng2.latitude;
-		double lng2 = latlng2.longitude;	
-		
+		double lng2 = latlng2.longitude;
+
 		double earthRadius = 3958.75;
-		double dLat = Math.toRadians(lat2-lat1);
-		double dLng = Math.toRadians(lng2-lng1);
-		double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-				Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-				Math.sin(dLng/2) * Math.sin(dLng/2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double dLat = Math.toRadians(lat2 - lat1);
+		double dLng = Math.toRadians(lng2 - lng1);
+		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+				+ Math.cos(Math.toRadians(lat1))
+				* Math.cos(Math.toRadians(lat2)) * Math.sin(dLng / 2)
+				* Math.sin(dLng / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		double dist = earthRadius * c;
 
 		double meterConversion = 1609;
