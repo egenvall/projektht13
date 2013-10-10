@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.lang.Math;
 
+import com.dat255.ht13.grupp23.database.MessagePointsContentProvider;
+import com.dat255.ht13.grupp23.database.MessagePointsTable;
 import com.google.android.gms.maps.model.LatLng;
-
+import android.support.v4.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,8 +28,9 @@ import android.widget.Toast;
  * 
  */
 
-public class MapController extends FragmentActivity implements Observer {
-
+public class MapController extends FragmentActivity implements Observer,
+		LoaderManager.LoaderCallbacks<Cursor> {
+	private SimpleCursorAdapter adapter;
 	private MapModel mapModel;
 	private MapView mapView;
 	private double minDistance = 1; // Minimum Distance (SET TO 1 WHILE TESTING)
@@ -44,6 +51,7 @@ public class MapController extends FragmentActivity implements Observer {
 														// markers disappears..
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
 				new IntentFilter("bdr"));
+		fillData();
 	}
 
 	@Override
@@ -51,6 +59,18 @@ public class MapController extends FragmentActivity implements Observer {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.map_controller, menu);
 		return true;
+	}
+
+	private void fillData() {
+		/* Fields from database, must include _id column for adapter */
+		String[] from = new String[] { MessagePointsTable.COLUMN_ID,
+				MessagePointsTable.COLUMN_XPOS, MessagePointsTable.COLUMN_YPOS,
+				MessagePointsTable.COLUMN_MESSAGES };
+		getSupportLoaderManager().initLoader(0, null,this);
+		
+		
+		
+
 	}
 
 	/**
@@ -93,7 +113,8 @@ public class MapController extends FragmentActivity implements Observer {
 			while (iterator.hasNext()) {
 				parcelableMessages.add(new ParcelableMessage(iterator.next()));
 			}
-			msgIntent.putParcelableArrayListExtra("messages", parcelableMessages);
+			msgIntent.putParcelableArrayListExtra("messages",
+					parcelableMessages);
 			msgIntent.putExtra("msgPID", id);
 			startActivity(msgIntent);
 			System.out.println("Initiating a MessageActivity");
@@ -120,9 +141,12 @@ public class MapController extends FragmentActivity implements Observer {
 				mapModel.AddMessagePoint(position);
 				mapView.updateMap(mapModel.getMessagePoints());
 
-			}else{
-				Toast.makeText(getApplicationContext(), "You are too close to another Marker, minimum distance: " + minDistance + "m", Toast.LENGTH_LONG).show();
-				
+			} else {
+				Toast.makeText(
+						getApplicationContext(),
+						"You are too close to another Marker, minimum distance: "
+								+ minDistance + "m", Toast.LENGTH_LONG).show();
+
 			}
 		}
 	}
@@ -193,5 +217,28 @@ public class MapController extends FragmentActivity implements Observer {
 		// Unregister since the activity is about to be closed.
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 		super.onDestroy();
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		String[] projection = { MessagePointsTable.COLUMN_ID,
+				MessagePointsTable.COLUMN_MESSAGES,
+				MessagePointsTable.COLUMN_XPOS, MessagePointsTable.COLUMN_YPOS };
+		CursorLoader cursorLoader = new CursorLoader(this,
+				MessagePointsContentProvider.CONTENT_URI, projection, null,
+				null, null);
+		return cursorLoader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }
