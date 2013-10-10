@@ -3,10 +3,11 @@ package com.dat255.ht13.grupp23;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class MapModel { 
+import com.dat255.ht13.grupp23.database.MessagePointsTable;
+
+public class MapModel {
 
 	private ArrayList<MessagePoint> messagePoints;
-	private int lastId;
 
 	/**
 	 * Returns a deep copy off the messagePoints list.
@@ -35,7 +36,6 @@ public class MapModel {
 
 	public MapModel() {
 		messagePoints = new ArrayList<MessagePoint>();
-		lastId = -1;
 	}
 
 	/**
@@ -44,10 +44,9 @@ public class MapModel {
 	 * @param position
 	 *            the position of the MessagePoint.
 	 */
-	public void AddMessagePoint(Point position) {
-		lastId++;
+	public void AddMessagePoint(Point position, int id) {
 		messagePoints.add(new MessagePoint(new ArrayList<Message>(), position,
-				lastId));
+				id));
 	}
 
 	/**

@@ -5,14 +5,18 @@ import java.util.Iterator;
 import java.lang.Math;
 
 import com.dat255.ht13.grupp23.database.MessagePointsContentProvider;
+import com.dat255.ht13.grupp23.database.MessagePointsDatabaseHelper;
 import com.dat255.ht13.grupp23.database.MessagePointsTable;
 import com.google.android.gms.maps.model.LatLng;
 import android.support.v4.app.LoaderManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.CursorLoader;
@@ -30,7 +34,6 @@ import android.widget.Toast;
 
 public class MapController extends FragmentActivity implements Observer,
 		LoaderManager.LoaderCallbacks<Cursor> {
-	private SimpleCursorAdapter adapter;
 	private MapModel mapModel;
 	private MapView mapView;
 	private double minDistance = 1; // Minimum Distance (SET TO 1 WHILE TESTING)
@@ -66,11 +69,7 @@ public class MapController extends FragmentActivity implements Observer,
 		String[] from = new String[] { MessagePointsTable.COLUMN_ID,
 				MessagePointsTable.COLUMN_XPOS, MessagePointsTable.COLUMN_YPOS,
 				MessagePointsTable.COLUMN_MESSAGES };
-		getSupportLoaderManager().initLoader(0, null,this);
-		
-		
-		
-
+		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	/**
@@ -138,9 +137,51 @@ public class MapController extends FragmentActivity implements Observer,
 			if (checkIfMarkersAround(position)) {
 				System.out.println("A marker was added at: " + "X: "
 						+ position.getX() + "Y: " + position.getY());
-				mapModel.AddMessagePoint(position);
-				mapView.updateMap(mapModel.getMessagePoints());
 
+				MessagePointsDatabaseHelper databaseHelper = new MessagePointsDatabaseHelper(
+						this);
+				SQLiteDatabase database = databaseHelper.getWritableDatabase();
+				ContentValues cv = new ContentValues();
+				/*cv.put(MessagePointsTable.COLUMN_XPOS, position.getX());
+				cv.put(MessagePointsTable.COLUMN_YPOS, position.getY());
+				cv.put(MessagePointsTable.COLUMN_MESSAGES, "CUNTNUGGET");
+				database.insert(MessagePointsTable.TABLE_MESSAGEPOINTS, null,
+						cv);*/
+				cv = new ContentValues();
+				cv.put(MessagePointsTable.COLUMN_XPOS, 57.802);
+				cv.put(MessagePointsTable.COLUMN_YPOS, 11.99361);
+				cv.put(MessagePointsTable.COLUMN_MESSAGES, "ASDASD");
+				//database.insert(MessagePointsTable.TABLE_MESSAGEPOINTS, null,
+					//	cv);
+				//database.execSQL("DELETE FROM " + MessagePointsTable.TABLE_MESSAGEPOINTS);
+				//database.execSQL("DELETE FROM sqlite_sequence");
+				
+				/*for (int i = 0; i < cursor.getCount(); i++) {
+					int id = cursor.getInt(0);
+					double x = cursor.getDouble(1);
+					double y = cursor.getDouble(2);
+					String z = cursor.getString(3);
+					System.out.println(id);
+					System.out.println(x);
+					System.out.println(y);
+					System.out.println(z);
+					
+					cursor.moveToNext();
+				}*/
+				
+				database = databaseHelper.getReadableDatabase();
+				Cursor cursor = database.query(
+						MessagePointsTable.TABLE_MESSAGEPOINTS, null, null,
+						null, null, null, null);
+				cursor.moveToLast();
+				
+				int id = cursor.getInt(cursor.getColumnIndex(MessagePointsTable.COLUMN_ID));
+				double xPos = cursor.getDouble(cursor.getColumnIndex(MessagePointsTable.COLUMN_XPOS));
+				double yPos = cursor.getDouble(cursor.getColumnIndex(MessagePointsTable.COLUMN_YPOS));
+				mapModel.AddMessagePoint(new Point(xPos, yPos), id);
+				mapView.updateMap(mapModel.getMessagePoints());
+				cursor.close();
+				database.close();
 			} else {
 				Toast.makeText(
 						getApplicationContext(),
