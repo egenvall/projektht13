@@ -48,8 +48,7 @@ public class CustomListViewAdapter extends BaseAdapter {
         TextView artist = (TextView)vi.findViewById(R.id.message); // Message
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
         if(item.ThumbNailResource == 1)			// Unkown picture on those who have not uploaded pic
-        	item.ThumbNailResource = R.drawable.unkown;
-		
+        	item.ThumbNailResource = R.drawable.unkown;		
         title.setText(item.Title);
         artist.setText(item.SubTitle);
         

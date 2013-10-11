@@ -27,7 +27,7 @@ public class MapController extends FragmentActivity implements Observer {
 	private MapModel mapModel;
 	private MapView mapView;
 	private double minDistance = 1; // Minimum Distance (SET TO 1 WHILE TESTING)
-
+	
 	/**
 	 * OnCreate for MapController. Sets the layout view for the window,
 	 * instantiates Model and View and adds Observer

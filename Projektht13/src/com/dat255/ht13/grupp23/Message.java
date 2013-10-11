@@ -73,7 +73,11 @@ public class Message {
 	 *            the text of the Message.
 	 */
 	public Message(String name, String text) {
-		this.name = name;
+		if (name.equals("")) {
+			this.name = defaultName;
+		} else {
+			this.name = name;
+		}
 		this.text = text;
 		date = new Date();
 	}
@@ -90,7 +94,11 @@ public class Message {
 	 *            the date of the Message.
 	 */
 	public Message(String name, String text, Date date) {
-		this.name = name;
+		if (name.equals("")) {
+			this.name = defaultName;
+		} else {
+			this.name = name;
+		}
 		this.text = text;
 		this.date = date;
 	}

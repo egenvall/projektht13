@@ -23,6 +23,7 @@ public class MessageActivity extends Activity {
 
 	private CustomListViewAdapter adapter;
 	private ArrayList<ParcelableMessage> messages;
+	private EditText inputName;
 	private EditText inputMessage;
 	private String text;
 	private Date date;
@@ -33,7 +34,9 @@ public class MessageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_message);
 		msgPID = getIntent().getExtras().getInt("msgPID");
-
+		
+		// Input name
+		inputName = (EditText) findViewById(R.id.inputName);
 		// Input message
 		inputMessage = (EditText) findViewById(R.id.inputMessage);
 		// Post Button
@@ -95,12 +98,13 @@ public class MessageActivity extends Activity {
 		});	
 	}
 	private void addMsgToMsgPoint(){
-		String inputText = inputMessage.getText().toString();
-		if(inputText.length() < 3){
+		String inputNameString = inputName.getText().toString();
+		String inputMessageString = inputMessage.getText().toString();
+		if(inputMessageString.length() < 3){
 			Toast.makeText(getApplicationContext(), "Your message is too short", Toast.LENGTH_LONG).show();
 		}else{
 			Intent msgAddIntent = new Intent("bdr");
-			msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputText));
+			msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputNameString ,inputMessageString));
 			msgAddIntent.putExtra("addInMsgPID", msgPID);
 			LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
 			finish();

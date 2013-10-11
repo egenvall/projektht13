@@ -13,5 +13,6 @@
     <string name="message">Message: </string>
     <string name="LoginActivity">LoginActivity: </string>
     <string name="RegisterActivity">RegisterActivity: </string>
+    <string name="name">Name:</string>
 
 </resources>

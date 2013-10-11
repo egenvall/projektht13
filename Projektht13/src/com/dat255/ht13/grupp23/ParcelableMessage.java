@@ -33,17 +33,20 @@ public class ParcelableMessage extends Message implements Parcelable {
 	 *            the Parcel that possess the data.
 	 */
 	public ParcelableMessage(Parcel source) {
-		super(source.readString(), new Date(source.readLong()));
+		super(source.readString(), source.readString(), new Date(
+				source.readLong()));
 	}
 
 	/**
 	 * Constructor with a String parameter. Calls the super constructor.
 	 * 
+	 * @param name
+	 *            the name of the Message.
 	 * @param text
-	 *            the text of the Message
+	 *            the text of the Message.
 	 */
-	public ParcelableMessage(String text) {
-		super(text);
+	public ParcelableMessage(String name, String text) {
+		super(name, text);
 	}
 
 	/**
@@ -64,6 +67,7 @@ public class ParcelableMessage extends Message implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(getName());
 		dest.writeString(getText());
 		dest.writeLong(getDate().getTime());
 	}
