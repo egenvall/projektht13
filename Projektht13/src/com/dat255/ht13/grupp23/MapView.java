@@ -224,7 +224,7 @@ public class MapView implements LocationListener, Subject {
 	 * 
 	 * @return
 	 */
-	private LatLng getLocForMarker() {
+	public LatLng getLocForMarker() {
 		Location myLocation = googleMap.getMyLocation();
 		LatLng myLatLng;
 		if(myLocation != null ){
