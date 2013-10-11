@@ -14,7 +14,7 @@
         android:textColor="#FFFFFF" />
 
     <EditText
-        android:id="@+id/inputMessage"
+        android:id="@+id/inputName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -30,7 +30,7 @@
         android:textColor="#FFFFFF" />
     
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
