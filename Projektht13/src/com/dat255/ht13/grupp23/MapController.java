@@ -93,7 +93,8 @@ public class MapController extends FragmentActivity implements Observer {
 			while (iterator.hasNext()) {
 				parcelableMessages.add(new ParcelableMessage(iterator.next()));
 			}
-			msgIntent.putParcelableArrayListExtra("messages", parcelableMessages);
+			msgIntent.putParcelableArrayListExtra("messages",
+					parcelableMessages);
 			msgIntent.putExtra("msgPID", id);
 			startActivity(msgIntent);
 			System.out.println("Initiating a MessageActivity");
@@ -120,9 +121,12 @@ public class MapController extends FragmentActivity implements Observer {
 				mapModel.AddMessagePoint(position);
 				mapView.updateMap(mapModel.getMessagePoints());
 
-			}else{
-				Toast.makeText(getApplicationContext(), "You are too close to another Marker, minimum distance: " + minDistance + "m", Toast.LENGTH_LONG).show();
-				
+			} else {
+				Toast.makeText(
+						getApplicationContext(),
+						"You are too close to another Marker, minimum distance: "
+								+ minDistance + "m", Toast.LENGTH_LONG).show();
+
 			}
 		}
 	}
@@ -174,16 +178,33 @@ public class MapController extends FragmentActivity implements Observer {
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// Toast.makeText(context,""+intent.getExtras().getInt("addInMsgPID"),
-			// Toast.LENGTH_LONG).show();
-			// Toast.makeText(context,""+((Message)intent.getExtras().getParcelable("addMessage")).getText(),
-			// Toast.LENGTH_LONG).show();
 
-			mapModel.AddMessageToMessagePoint(
-					intent.getExtras().getInt("addInMsgPID"), (Message) intent
-							.getExtras().getParcelable("addMessage"));
-			update(EventType.MarkerClick,
-					intent.getExtras().getInt("addInMsgPID"));
+			int id = intent.getExtras().getInt("addInMsgPID");
+
+			/*
+			 * Check if the marker the User is trying to Post on is within valid
+			 * distance
+			 */
+			MessagePoint writingTo = mapModel.getMessagePointById(id);
+			Point currentPos = new Point(mapView.getLocForMarker().latitude,
+					mapView.getLocForMarker().longitude);
+			double distance = calculateDistance(writingTo.getPosition(),
+					currentPos);
+			System.out.println(distance);
+			if (distance < 100) {
+				mapModel.AddMessageToMessagePoint(
+						intent.getExtras().getInt("addInMsgPID"),
+						(Message) intent.getExtras()
+								.getParcelable("addMessage"));
+				update(EventType.MarkerClick,
+						intent.getExtras().getInt("addInMsgPID"));
+			}
+
+			else {
+				Toast.makeText(getApplicationContext(),
+						"You are too far away from this MessagePoint",
+						Toast.LENGTH_LONG).show();
+			}
 
 		}
 	};
