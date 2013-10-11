@@ -17,11 +17,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 /**
  * Class representing the View in the applications main MVC. Contains the
@@ -223,8 +226,19 @@ public class MapView implements LocationListener, Subject {
 	 */
 	private LatLng getLocForMarker() {
 		Location myLocation = googleMap.getMyLocation();
-		LatLng myLatLng = new LatLng(myLocation.getLatitude(),
-				myLocation.getLongitude());
+		LatLng myLatLng;
+		if(myLocation != null ){
+			myLatLng = new LatLng(myLocation.getLatitude(),
+					myLocation.getLongitude());
+		}else{
+			Projection projection = googleMap.getProjection();
+			VisibleRegion visibleRegion = projection.getVisibleRegion();
+			LatLngBounds bounds = visibleRegion.latLngBounds;
+			LatLng nearLeft=bounds.southwest;
+			LatLng nearRight=bounds.northeast;
+			myLatLng=new LatLng((nearLeft.latitude+nearRight.latitude)/2,(nearLeft.longitude+nearRight.longitude)/2);
+		}
+		
 		return myLatLng;
 	}
 

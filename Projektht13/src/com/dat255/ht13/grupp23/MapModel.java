@@ -185,8 +185,9 @@ public class MapModel {
 	        // Add your data
 	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	        nameValuePairs.add(new BasicNameValuePair("mpid", String.valueOf(newMP.getId())));
-	        nameValuePairs.add(new BasicNameValuePair("x",String.valueOf(newMP.getPosition().getX())));
+	        System.out.println(" newMP X " + newMP.getPosition().getX() + " newMP Y "+newMP.getPosition().getY());
 	        nameValuePairs.add(new BasicNameValuePair("y",String.valueOf(newMP.getPosition().getY())));	        	        
+	        nameValuePairs.add(new BasicNameValuePair("x",String.valueOf(newMP.getPosition().getX())));
 	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 	        // Execute HTTP Post Request
 	        httpClient.execute(httpPost);	        
