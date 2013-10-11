@@ -43,10 +43,9 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyB2GCoO6BAaS4EJEy8Dq18p7qSbI7C0ab0
-" />
+            android:value="AIzaSyC616JRMNdm_Wv8p9m7qTwyvjDmHzdLpwI" />
         <!-- Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
-        <!--  Release Key:    AIzaSyB2GCoO6BAaS4EJEy8Dq18p7qSbI7C0ab0 -->
+        <!--  Release Key:    AIzaSyC616JRMNdm_Wv8p9m7qTwyvjDmHzdLpwI -->
         <activity
             android:name="com.dat255.ht13.grupp23.MapController"
             android:label="@string/title_activity_map_controller" >
