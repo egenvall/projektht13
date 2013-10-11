@@ -35,7 +35,7 @@ public class MessageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_message);
 		msgPID = getIntent().getExtras().getInt("msgPID");
-		
+		//PUshtest
 		// Input name
 		inputName = (EditText) findViewById(R.id.inputName);
 		// Input message
