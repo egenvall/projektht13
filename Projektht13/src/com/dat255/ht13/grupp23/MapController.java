@@ -141,18 +141,12 @@ public class MapController extends FragmentActivity implements Observer,
 				MessagePointsDatabaseHelper databaseHelper = new MessagePointsDatabaseHelper(
 						this);
 				SQLiteDatabase database = databaseHelper.getWritableDatabase();
-				ContentValues cv = new ContentValues();
-				/*cv.put(MessagePointsTable.COLUMN_XPOS, position.getX());
-				cv.put(MessagePointsTable.COLUMN_YPOS, position.getY());
-				cv.put(MessagePointsTable.COLUMN_MESSAGES, "CUNTNUGGET");
+				ContentValues contentValues = new ContentValues();
+				contentValues.put(MessagePointsTable.COLUMN_XPOS, position.getX());
+				contentValues.put(MessagePointsTable.COLUMN_YPOS, position.getY());
+				contentValues.put(MessagePointsTable.COLUMN_MESSAGES, "ASDASD");
 				database.insert(MessagePointsTable.TABLE_MESSAGEPOINTS, null,
-						cv);*/
-				cv = new ContentValues();
-				cv.put(MessagePointsTable.COLUMN_XPOS, 57.802);
-				cv.put(MessagePointsTable.COLUMN_YPOS, 11.99361);
-				cv.put(MessagePointsTable.COLUMN_MESSAGES, "ASDASD");
-				//database.insert(MessagePointsTable.TABLE_MESSAGEPOINTS, null,
-					//	cv);
+						contentValues);
 				//database.execSQL("DELETE FROM " + MessagePointsTable.TABLE_MESSAGEPOINTS);
 				//database.execSQL("DELETE FROM sqlite_sequence");
 				
