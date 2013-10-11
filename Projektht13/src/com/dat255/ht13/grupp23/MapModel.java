@@ -90,9 +90,10 @@ public class MapModel {
 			    // Pulling items from the array
 			        
 			    String message = oneObject.getString("message");
+			    String name = oneObject.getString("name");
 			    Date date = new Date(Long.parseLong(oneObject.getString("time"))*1000);
 			    int id = Integer.parseInt(oneObject.getString("mpid"));
-			    Message newMessage = new Message(message,date);
+			    Message newMessage = new Message(name,message,date);
 			    getMP(id).AddMessage(newMessage);
 			}			
 			
@@ -232,6 +233,7 @@ public class MapModel {
 	        // Add your data
 	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	        nameValuePairs.add(new BasicNameValuePair("mpid", String.valueOf(id)));
+	        nameValuePairs.add(new BasicNameValuePair("name", message.getName()));
 	        nameValuePairs.add(new BasicNameValuePair("message",message.getText()));	        
 	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 	        // Execute HTTP Post Request
