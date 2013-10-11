@@ -25,6 +25,7 @@ public class MessageActivity extends Activity {
 	private ArrayList<ParcelableMessage> messages;
 	private EditText inputName;
 	private EditText inputMessage;
+	private String name;
 	private String text;
 	private Date date;
 	private int msgPID;
@@ -56,6 +57,7 @@ public class MessageActivity extends Activity {
 	class ListViewItem{
 
 		public int ThumbNailResource;
+		public String Name;
 		public String Title;
 		public String SubTitle;
 
@@ -76,11 +78,13 @@ public class MessageActivity extends Activity {
 		List<ListViewItem> items = new ArrayList<ListViewItem>();
 
 		for(Message msg : messages){
+			name = msg.getName();
 			text = msg.getText();
 			date = msg.getDate();
 			items.add(new ListViewItem()
 			{{
 				ThumbNailResource = 1;
+				Name = name;
 				Title = new SimpleDateFormat("MMMM d 'at' h:mm a").format(date);
 				SubTitle = text;
 			}});
