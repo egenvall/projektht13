@@ -28,12 +28,13 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
+        
+        android:layout_alignParentRight="true"
+         
         android:textColor="#040404"
         android:typeface="sans" 
-        android:textSize="15dip"
-        android:textStyle="bold"/>
+        android:textSize="12sp"
+        />
 
 	<!-- Meddelande -->
     <TextView
@@ -46,15 +47,27 @@
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
          />
-
-	
     
-      
-     <!-- Pilen till hoger  -->    
-     <ImageView android:layout_width="wrap_content"
-     	android:layout_height="wrap_content"
-     	android:src="@drawable/arrow"
-     	android:layout_alignParentRight="true"
-     	android:layout_centerVertical="true"/>
+    <!-- Datum -->
+     
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textColor="#040404"
+        android:textSize="15dip"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <!-- Pilen till hoger -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow" />
 
 </RelativeLayout>

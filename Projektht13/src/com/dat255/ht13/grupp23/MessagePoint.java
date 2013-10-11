@@ -40,8 +40,11 @@ public class MessagePoint {
 		messages.add(message);
 	}
 
-	/*
-	 * Default constructor.
+	/**
+	 * Constructor with id parameter.
+	 * 
+	 * @param id
+	 *            the id of the MessagePoint.
 	 */
 	public MessagePoint(int id) {
 		this.messages = new ArrayList<Message>();
@@ -49,14 +52,27 @@ public class MessagePoint {
 		this.id = id;
 	}
 
+	/**
+	 * Constructor with Messages, position and id parameters.
+	 * 
+	 * @param messages
+	 *            the Messages of the MessagePoint.
+	 * @param position
+	 *            the Position of the MessagePoint.
+	 * @param id
+	 *            the id of the MessagePoint.
+	 */
 	public MessagePoint(ArrayList<Message> messages, Point position, int id) {
 		this.messages = messages;
 		this.position = position;
 		this.id = id;
 	}
 
-	/*
+	/**
 	 * Copy constructor.
+	 * 
+	 * @param messagePoint
+	 *            the MessagePoint object to be copied.
 	 */
 	public MessagePoint(MessagePoint messagePoint) {
 		this.messages = messagePoint.getMessages();

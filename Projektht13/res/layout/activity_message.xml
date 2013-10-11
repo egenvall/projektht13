@@ -2,8 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#888888"
     android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/inputName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textColor="#000000" >
+    </EditText>
 
     <TextView
         android:id="@+id/message"
@@ -11,9 +27,8 @@
         android:layout_height="wrap_content"
         android:text="@string/message"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor = "#FFFFFF" />
+        android:textColor="#FFFFFF" />
     
-
     <EditText
         android:id="@+id/inputMessage"
         android:layout_width="match_parent"
@@ -21,6 +36,7 @@
         android:ems="10"
         android:textColor="#000000" >
     </EditText>
+    
 
     <Button
         android:id="@+id/postMessage"

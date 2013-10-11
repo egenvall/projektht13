@@ -1,6 +1,8 @@
 package com.dat255.ht13.grupp23;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import android.app.Activity;
@@ -14,29 +16,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class MessageActivity extends Activity {
 
 
 	private CustomListViewAdapter adapter;
-	private ArrayList<Message> messages;
+	private ArrayList<ParcelableMessage> messages;
+	private EditText inputName;
 	private EditText inputMessage;
+	private String name;
 	private String text;
 	private Date date;
 	private int msgPID;
-	Intent refresh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_message);
 		msgPID = getIntent().getExtras().getInt("msgPID");
-
+		//PUshtest
+		// Input name
+		inputName = (EditText) findViewById(R.id.inputName);
 		// Input message
 		inputMessage = (EditText) findViewById(R.id.inputMessage);
 		// Post Button
 		Button post = (Button) findViewById(R.id.postMessage);
-		
+
 		createAndShowMessageList();
 
 		//Click event for POST button 
@@ -51,6 +57,7 @@ public class MessageActivity extends Activity {
 	class ListViewItem{
 
 		public int ThumbNailResource;
+		public String Name;
 		public String Title;
 		public String SubTitle;
 
@@ -71,18 +78,21 @@ public class MessageActivity extends Activity {
 		List<ListViewItem> items = new ArrayList<ListViewItem>();
 
 		for(Message msg : messages){
+			name = msg.getName();
 			text = msg.getText();
 			date = msg.getDate();
 			items.add(new ListViewItem()
 			{{
 				ThumbNailResource = 1;
-				Title = date.toString() ;
+				Name = name;
+				Title = new SimpleDateFormat("MMMM d 'at' h:mm a").format(date);
 				SubTitle = text;
 			}});
 		}
-		adapter= new CustomListViewAdapter(this, items);        
+		Collections.reverse(items);
+		adapter = new CustomListViewAdapter(this, items);        
 		lv.setAdapter(adapter);
-		
+
 		// Click event for single list row
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -92,12 +102,17 @@ public class MessageActivity extends Activity {
 		});	
 	}
 	private void addMsgToMsgPoint(){
-		Intent msgAddIntent = new Intent("bdr");
-		msgAddIntent.putExtra("addMessage", new Message(inputMessage.getText().toString()));
-		msgAddIntent.putExtra("addInMsgPID", msgPID);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
-		finish();
-		
+		String inputNameString = inputName.getText().toString();
+		String inputMessageString = inputMessage.getText().toString();
+		if(inputMessageString.length() < 3){
+			Toast.makeText(getApplicationContext(), "Your message is too short", Toast.LENGTH_LONG).show();
+		}else{
+			Intent msgAddIntent = new Intent("bdr");
+			msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputNameString ,inputMessageString));
+			msgAddIntent.putExtra("addInMsgPID", msgPID);
+			LocalBroadcastManager.getInstance(this).sendBroadcast(msgAddIntent);
+			finish();
+		}
 	}
 }
 
