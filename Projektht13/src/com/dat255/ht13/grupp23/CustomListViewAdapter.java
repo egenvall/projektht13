@@ -44,16 +44,17 @@ public class CustomListViewAdapter extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.list_row, null);
 
-        TextView title = (TextView)vi.findViewById(R.id.title); // Name
+        TextView title = (TextView)vi.findViewById(R.id.title); // Datum
         TextView author = (TextView)vi.findViewById(R.id.message); // Message
-       // TextView date = (TextView)vi.findViewById(R.id.date); // Name
+        TextView date = (TextView)vi.findViewById(R.id.date); // Name
         
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
         if(item.ThumbNailResource == 1)			// Unkown picture on those who have not uploaded pic
         	item.ThumbNailResource = R.drawable.unkown;		
-        title.setText(item.Title);
+        
+        title.setText(item.Title);  // Datum
         author.setText(item.SubTitle);
-    //    date.setText(item.Name);
+        date.setText(item.Name);   // Namn
         
         
         thumb_image.setImageResource(item.ThumbNailResource);
