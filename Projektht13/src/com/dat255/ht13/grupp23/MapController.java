@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
@@ -36,6 +37,8 @@ public class MapController extends FragmentActivity implements Observer {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_controller);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    StrictMode.setThreadPolicy(policy);
 		mapModel = new MapModel();
 		mapView = new MapView(this);
 		mapView.addObserver(this);
