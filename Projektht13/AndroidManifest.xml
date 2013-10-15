@@ -47,7 +47,7 @@
 " />
         <!-- Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
         <activity
-            android:name="com.dat255.ht13.grupp23.MapController"
+            android:name="com.dat255.ht13.grupp23.activites.MapController"
             android:label="@string/title_activity_map_controller" >
         </activity>
         <activity
@@ -55,7 +55,7 @@
             android:label="@string/title_activity_message_controller" >
         </activity>
         <activity
-            android:name="com.dat255.ht13.grupp23.MessageActivity"
+            android:name="com.dat255.ht13.grupp23.activites.MessageActivity"
             android:label="@string/title_activity_message_controller" >
         </activity>
         <activity
@@ -63,7 +63,7 @@
             android:label="@string/RegisterActivity" >
         </activity>
          <activity
-            android:name="com.dat255.ht13.grupp23.MainActivity"
+            android:name="com.dat255.ht13.grupp23.activites.MainActivity"
             android:label="@string/app_name" >
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
