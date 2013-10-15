@@ -9,9 +9,30 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Intent mapIntent = new Intent(getApplicationContext(),
-				MapController.class);
-		startActivity(mapIntent);
-		finish();
+		setContentView(R.layout.logoscreen);
+		Thread splashThread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					int waited = 0;
+					while (waited < 4000) {
+						sleep(100);
+						waited += 100;
+					}
+				} catch (InterruptedException e) {
+					// do nothing
+				} finally {
+					finish();
+					Intent mapIntent = new Intent(getApplicationContext(),
+							MapController.class);
+					startActivity(mapIntent);
+					finish();
+				}
+			}
+		};
+		splashThread.start();
 	}
+
+	
 }
+
