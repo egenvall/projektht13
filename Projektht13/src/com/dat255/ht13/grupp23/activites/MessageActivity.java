@@ -114,9 +114,12 @@ public class MessageActivity extends Activity {
 	}
 	private void addMsgToMsgPoint(){
 		String inputNameString = inputName.getText().toString();
+		if(inputNameString.length() > 10){
+			Toast.makeText(getApplicationContext(), "Your name is too long [Max 10 chars]", Toast.LENGTH_LONG).show();
+		}
 		String inputMessageString = inputMessage.getText().toString();
 		if(inputMessageString.length() < 3){
-			Toast.makeText(getApplicationContext(), "Your message is too short", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Your message is too short [Min 3 chars]", Toast.LENGTH_LONG).show();
 		}else{
 			Intent msgAddIntent = new Intent("bdr");
 			msgAddIntent.putExtra("addMessage", new ParcelableMessage(inputNameString ,inputMessageString));
