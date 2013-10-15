@@ -1,12 +1,14 @@
-package com.dat255.ht13.grupp23.test;
+package com.dat255.ht13.grupp23.test.model;
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.dat255.ht13.grupp23.model.Message;
+import com.dat255.ht13.grupp23.model.MessagePoint;
+import com.dat255.ht13.grupp23.model.Point;
+
 import junit.framework.TestCase;
-import com.dat255.ht13.grupp23.Message;
-import com.dat255.ht13.grupp23.MessagePoint;
-import com.dat255.ht13.grupp23.Point;
 
 public class MessagePointTest extends TestCase {
 	

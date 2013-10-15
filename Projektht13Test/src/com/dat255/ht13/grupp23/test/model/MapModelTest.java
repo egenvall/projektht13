@@ -1,4 +1,4 @@
-package com.dat255.ht13.test.model;
+package com.dat255.ht13.grupp23.test.model;
 
 import java.util.ArrayList;
 
