@@ -21,31 +21,16 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+/**
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
+ */
 public class MapModel {
 
 	private ArrayList<MessagePoint> messagePoints;
 	private int lastId;
 
-/*	private void addMessageToMessagePoints(Message message,int id){
-	    //inserts a message to a messagepoint.
-	    MessagePoint mp=getMP(id);
-	    if(mp==null)
-	        return;        	
-	    
-	    Date after=new Date(0);
-	    for(Message mess: mp.getMessages()){
-	    	if(mess.getDate().after(after)){
-	    		after=mess.getDate();
-	    	}
-	    }
-	    if(message.getDate().after(after))
-	    	mp.AddMessage(message);	    
-	}
-*/	
-	
-	
-	
 	private MessagePoint getMP(int id) {
 	    //returns a MessagePoint without calling the Server
 		Iterator<MessagePoint> it = messagePoints.iterator();

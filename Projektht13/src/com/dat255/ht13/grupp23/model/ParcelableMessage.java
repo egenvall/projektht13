@@ -10,6 +10,10 @@ import android.os.Parcelable;
  * be used in the model, to prevent coupling between the model and the
  * framework.
  * 
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
+ * 
  */
 public class ParcelableMessage extends Message implements Parcelable {
 

@@ -6,7 +6,11 @@ import com.dat255.ht13.grupp23.R.layout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
+/**
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
+ */
 public class MainActivity extends FragmentActivity {
 
 	@Override

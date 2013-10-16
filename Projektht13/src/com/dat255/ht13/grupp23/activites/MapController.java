@@ -33,7 +33,11 @@ import android.widget.Toast;
 /**
  * Class in charge of controlling the MVC pattern
  * 
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
  */
+ 
 
 public class MapController extends FragmentActivity implements Observer {
 

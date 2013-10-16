@@ -38,7 +38,8 @@ import com.google.android.gms.maps.model.VisibleRegion;
  * Class representing the View in the applications main MVC. Contains the
  * GoogleMap and draws items on it
  * 
- * 
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
  * 
  */
 public class MapView implements LocationListener, Subject {

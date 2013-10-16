@@ -17,7 +17,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+/**
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
+ */
 public class CustomListViewAdapter extends BaseAdapter {
     
 	LayoutInflater inflater;

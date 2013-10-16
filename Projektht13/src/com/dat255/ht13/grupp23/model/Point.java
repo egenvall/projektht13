@@ -1,5 +1,9 @@
 package com.dat255.ht13.grupp23.model;
-
+/**
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @license MIT
+ *
+ */
 public class Point {
 
 	private double x;
