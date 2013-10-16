@@ -2,12 +2,11 @@ package com.dat255.ht13.grupp23.activites;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.lang.Math;
 
 import com.dat255.ht13.grupp23.R;
-import com.dat255.ht13.grupp23.R.id;
-import com.dat255.ht13.grupp23.R.layout;
-import com.dat255.ht13.grupp23.R.menu;
 import com.dat255.ht13.grupp23.model.MapModel;
 import com.dat255.ht13.grupp23.model.Message;
 import com.dat255.ht13.grupp23.model.MessagePoint;
@@ -23,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
@@ -37,13 +35,13 @@ import android.widget.Toast;
  * @license MIT
  *
  */
- 
 
 public class MapController extends FragmentActivity implements Observer {
 
+	private Timer timer;
 	private MapModel mapModel;
 	private MapView mapView;
-	private double minDistance = 1; // Minimum Distance (SET TO 1 WHILE TESTING)
+	private double minDistance = 20; // Minimum Distance (SET TO 1 WHILE TESTING)
 	
 	/**
 	 * OnCreate for MapController. Sets the layout view for the window,
@@ -52,18 +50,43 @@ public class MapController extends FragmentActivity implements Observer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_map_controller);
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-	    StrictMode.setThreadPolicy(policy);
-		mapModel = new MapModel();
-		mapView = new MapView(this);
-		mapView.addObserver(this);
-		mapView.updateMap(mapModel.getMessagePoints()); // Another solution?
-														// While tilt, the
-														// markers disappears..
+		if(savedInstanceState == null){		
+			mapModel = new MapModel();
+			mapView = new MapView(this);
+			mapView.addObserver(this);
+			mapView.updateMap(mapModel.getMessagePoints());	
+
+			timer = new Timer();
+			timer.schedule(new TimerTask() {			
+				@Override
+				public void run() {
+					TimerMethod();
+				}
+
+			}, 0, 1000);
+		}else {
+			super.onRestoreInstanceState(savedInstanceState);
+		}
+		
+
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
 				new IntentFilter("bdr"));
+	}
+	
+	private void TimerMethod(){
+		this.runOnUiThread(timer_runner);
+	
+	}
+	private Runnable timer_runner = new Runnable() {
+		public void run() {
+			mapView.updateMap(mapModel.getMessagePoints());	
+			mapModel.updateMPs();
+		}
+	};
+
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
 	}
 
 	@Override
@@ -102,9 +125,10 @@ public class MapController extends FragmentActivity implements Observer {
 	@Override
 	public void update(EventType eventType, int id) {
 		if (eventType == EventType.MarkerClick) {
-			if ((mapModel.getMessagePointById(id)).getMessages().size() == 0) {
+			/*if ((mapModel.getMessagePointById(id)).getMessages().size() == 0) {
 				mapModel.AddMessageToMessagePoint(id, new Message("Text"));
-			}
+			}*/
+			
 			Intent msgIntent = new Intent(MapController.this,
 					MessageActivity.class);
 			ArrayList<ParcelableMessage> parcelableMessages = new ArrayList<ParcelableMessage>();

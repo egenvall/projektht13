@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.dat255.ht13.grupp23.R;
-import com.dat255.ht13.grupp23.R.id;
-import com.dat255.ht13.grupp23.R.layout;
-import com.dat255.ht13.grupp23.R.menu;
 import com.dat255.ht13.grupp23.model.Message;
 import com.dat255.ht13.grupp23.model.ParcelableMessage;
 import com.dat255.ht13.grupp23.util.CustomListViewAdapter;

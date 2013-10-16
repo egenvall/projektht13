@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.dat255.ht13.grupp23.R;
-import com.dat255.ht13.grupp23.R.id;
 import com.dat255.ht13.grupp23.model.IdentifiableMarker;
 import com.dat255.ht13.grupp23.model.MessagePoint;
 import com.dat255.ht13.grupp23.model.Point;

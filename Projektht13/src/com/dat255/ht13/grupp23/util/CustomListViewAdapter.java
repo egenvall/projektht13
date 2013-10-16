@@ -3,9 +3,6 @@ package com.dat255.ht13.grupp23.util;
 import java.util.List;
 
 import com.dat255.ht13.grupp23.R;
-import com.dat255.ht13.grupp23.R.drawable;
-import com.dat255.ht13.grupp23.R.id;
-import com.dat255.ht13.grupp23.R.layout;
 import com.dat255.ht13.grupp23.activites.MessageActivity.ListViewItem;
 
 import android.app.Activity;

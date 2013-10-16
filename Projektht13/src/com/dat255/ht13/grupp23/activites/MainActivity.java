@@ -1,7 +1,6 @@
 package com.dat255.ht13.grupp23.activites;
 
 import com.dat255.ht13.grupp23.R;
-import com.dat255.ht13.grupp23.R.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
