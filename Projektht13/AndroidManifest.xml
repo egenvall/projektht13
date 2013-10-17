@@ -46,28 +46,21 @@
             android:value="AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo
 " />
         <!-- Debug key     AIzaSyACqmLKo9Yg59MG99IXEBBk0q9cSgK91qo -->
+        <!--  Release Key:    AIzaSyC616JRMNdm_Wv8p9m7qTwyvjDmHzdLpwI -->
         <activity
             android:name="com.dat255.ht13.grupp23.activites.MapController"
-            android:label="@string/title_activity_map_controller" >
-        </activity>
-        <activity
-            android:name="com.dat255.ht13.grupp23.MessageController"
-            android:label="@string/title_activity_message_controller" >
+            android:label="@string/title_activity_map_controller" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.dat255.ht13.grupp23.activites.MessageActivity"
             android:label="@string/title_activity_message_controller" >
-        </activity>
-        <activity
-            android:name="com.dat255.ht13.grupp23.RegisterActivity"
-            android:label="@string/RegisterActivity" >
         </activity>
          <activity
             android:name="com.dat255.ht13.grupp23.activites.MainActivity"
             android:label="@string/app_name" >
              <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

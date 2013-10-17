@@ -31,7 +31,7 @@ import android.widget.Toast;
 /**
  * Class in charge of controlling the MVC pattern
  * 
- * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal,Josef Haddad
+ * @copyright (c) 2013 Kim Egenvall, Carl Fredriksson, Jonas Ha, Johan Wallander, Timocin Zaynal, Josef Haddad
  * @license MIT
  *
  */
@@ -41,7 +41,7 @@ public class MapController extends FragmentActivity implements Observer {
 	private Timer timer;
 	private MapModel mapModel;
 	private MapView mapView;
-	private double minDistance = 20; // Minimum Distance (SET TO 1 WHILE TESTING)
+	private double minDistance = 0; // Minimum Distance (SET TO 1 WHILE TESTING)
 	
 	/**
 	 * OnCreate for MapController. Sets the layout view for the window,
