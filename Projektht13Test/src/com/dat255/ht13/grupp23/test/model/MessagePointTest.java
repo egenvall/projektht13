@@ -1,8 +1,9 @@
 package com.dat255.ht13.grupp23.test.model;
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.Test;
+
+
 
 import com.dat255.ht13.grupp23.model.Message;
 import com.dat255.ht13.grupp23.model.MessagePoint;
@@ -31,7 +32,7 @@ public class MessagePointTest extends TestCase {
 	public MessagePointTest() {
 		
 	}
-	@Before
+	
 	public void setUp() throws Exception {
 	
 		message1 = new Message("text1");

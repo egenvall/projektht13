@@ -2,18 +2,17 @@ package com.dat255.ht13.grupp23.test.model;
 
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
-import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 import com.dat255.ht13.grupp23.model.MapModel;
 import com.dat255.ht13.grupp23.model.Message;
 import com.dat255.ht13.grupp23.model.MessagePoint;
 import com.dat255.ht13.grupp23.model.Point;
+import android.test.AndroidTestCase;
 
-public class MapModelTest extends TestCase{
-
+public class MapModelTest extends AndroidTestCase {
 	MapModel model;
 	
 	Point point1;
@@ -21,13 +20,11 @@ public class MapModelTest extends TestCase{
 	Point spacePoint;
 	Message msg1;
 	Message msg2;
-	
+	Message spaceMessage;
 	ArrayList<MessagePoint> msgPoints;
-	public MapModelTest() {
-	}
+
 
 	@Override
-	@Before
 	public void setUp() throws Exception {
 		model = new MapModel();
 		point1 = new Point(11.11,11.11);
@@ -42,7 +39,7 @@ public class MapModelTest extends TestCase{
     public void testAddMessagePoint(){
         model.AddMessagePoint(point1);
         model.AddMessagePoint(point2);
-        assertEquals(2,model.getMessagePoints().size())
+        assertEquals(2,model.getMessagePoints().size());
     }
     
 	
@@ -65,28 +62,33 @@ public class MapModelTest extends TestCase{
 	
 	@Test(timeout=15)
 	public void testDatabaseConnection(){ //test connections to the database
-	    int inititalMPSize = model.getMessagePoints().size();
-	    model.updateMP();
+	    int initialMPSize = model.getMessagePoints().size();
+	    model.updateMPs();
         while(model.getMessagePoints().size() == initialMPSize); // loop until size changes or until timeout
 	    int initialSize = model.getMessagePoints().size();
-	    model.addMessagePoint(spacePoint);
+	    model.AddMessagePoint(spacePoint);
 	    //find the id for that point;
 	    ArrayList<MessagePoint> messagePoints = model.getMessagePoints();
 	    MessagePoint messagePoint = null;
 	    for(MessagePoint mp : messagePoints){
-	        if(mp.getPosition.getX() == spacePoint.getX() && mp.getPosition.getY() == spacePoint.getY()){
+	        if(mp.getPosition().getX() == spacePoint.getX() && mp.getPosition().getY() == spacePoint.getY()){
 	            messagePoint = mp;
 	            break;
 	        }
 	    }
 	    int id = messagePoint.getId();
-	    model.addMessageToMessagePoint(id,spaceMessage);
-	    Thread.sleep(2000);
+	    model.AddMessageToMessagePoint(id,spaceMessage);
+	    try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         //Test if we can download the same data to a new model
         MapModel newModel = new MapModel();
-        assertEquals(newModel.getMessagePoints.size(),0); //assert that it is empty
-        inititalMPSize = newModel.getMessagePoints().size();
-	    newModel.updateMP();
+        assertEquals(newModel.getMessagePoints().size(),0); //assert that it is empty
+        initialMPSize = newModel.getMessagePoints().size();
+	    newModel.updateMPs();
         while(newModel.getMessagePoints().size() == initialMPSize); // loop until size changes or until timeout
         MessagePoint spaceMessagePoint=newModel.getMessagePointById(id);
         assertEquals( spaceMessagePoint.getPosition().getX(),spacePoint.getX());
