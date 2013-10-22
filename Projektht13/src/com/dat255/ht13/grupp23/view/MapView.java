@@ -69,10 +69,12 @@ public class MapView implements LocationListener, Subject {
 			MessagePoint messagePoint = iterator.next();
 			LatLng latLng = new LatLng(messagePoint.getPosition().getX(),
 					messagePoint.getPosition().getY());
+			
+			
 			Marker marker = googleMap.addMarker(new MarkerOptions().position(
 					latLng).icon(
-					BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+					BitmapDescriptorFactory.fromResource(R.drawable.chatbubble2)));
+			
 			markerList
 					.add(new IdentifiableMarker(marker, messagePoint.getId()));
 		}
